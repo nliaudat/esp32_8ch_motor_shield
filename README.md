@@ -8,6 +8,8 @@ The card use a ESP32-WROOM-32D as logics and wifi connection.
 
 The software runs under esphome to be easy to customize and link with hass.io 
 
+Can be extended up to 16 channels
+
 
 
 Fabrication : 
