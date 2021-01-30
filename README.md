@@ -1,7 +1,7 @@
 # An ESP32 based 8 channels motor controller 
 (to replace Homematic IP Floor Heating Actuator)
 
-![alt text](https://github.com/nliaudat/robot-drummer/raw/master/imgs/2021-01-18 20.37.09.jpg "board")
+![alt text](https://github.com/nliaudat/robot-drummer/raw/master/imgs/board.jpg "board")
 
 The ready to go board costs less than 14$
 
