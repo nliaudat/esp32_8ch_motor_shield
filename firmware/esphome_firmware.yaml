@@ -1,0 +1,1176 @@
+# for flashing : press boot button for 2-3 seconds before the serial connection initialize
+# After OTA update, the EN (reset) button must be pressed to run firmware
+# do not use gpio12 (MTDI)
+
+esphome:
+  name: floor_heating_controller
+  platform: ESP32
+  board: nodemcu-32s
+  on_boot:
+    priority: -200
+    then:
+        #- script.execute: valve_maintenance
+        - cover.open: CH1_cover
+        - cover.open: CH3_cover
+        - cover.open: CH5_cover
+        - cover.open: CH7_cover
+        - delay: 50s
+        - cover.open: CH2_cover
+        - cover.open: CH4_cover
+        - cover.open: CH6_cover
+        - cover.open: CH8_cover
+
+        
+
+wifi:
+  networks:
+  - ssid: "xxx"
+    hidden: true
+    password: "xxx"
+    priority : 1
+   
+  
+    # Optional manual IP
+  manual_ip:
+    static_ip: 192.168.1.138
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "floor_heating_ctrl Fallback"
+    password: "XXX"
+
+captive_portal:
+
+# Enable logging
+logger:
+  level: VERBOSE #NONE# ERROR #INFO #DEBUG  #VERBOSE
+  logs:
+    adc: INFO
+    sensor: INFO
+    binary_sensor: INFO
+    cover: INFO
+    switch: INFO
+    climate: INFO
+    sensor.bureau_temperature: INFO
+    endstop : DEBUG
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+      
+# (Optional) For displaying time:
+time:
+- platform: sntp
+  timezone : Europe/Zurich
+  #timezone: UTC+1
+  servers:  [0.pool.ntp.org, 1.pool.ntp.org , 2.pool.ntp.org]
+  on_time:
+  - seconds: 0
+    minutes: 0
+    hours: 10
+    days_of_week: MON-SUN
+    then:
+      - switch.toggle: floor_heating_ctrl_reboot
+  - seconds: 0
+    minutes: 0
+    hours: 7
+    days_of_week: MON
+    then:
+      - script.execute: valve_maintenance
+      - delay: 500s
+
+
+
+            
+climate:
+     
+  - platform: thermostat
+    id: office_thermostat
+    name: "Bureau thermostat"
+    sensor: Office_temperature
+    default_target_temperature_low: 22 °C
+    default_target_temperature_high: 22 °C
+    hysteresis : 0 #0.5 # 0.5°C
+    heat_action:
+      - while:
+          condition:
+              lambda: 'return 1;' #infinite loop
+          then:
+          - script.execute: office_check_temp
+          - delay: !lambda 'return id(check_interval) * 1000;'
+    cool_action:
+      - while:
+          condition:
+              lambda: 'return 1;' #infinite loop
+          then:
+          - script.execute: office_check_temp
+          - delay: !lambda 'return id(check_interval) * 1000;'
+    idle_action:
+            - script.stop: office_check_temp
+    away_config:
+      default_target_temperature_low: 20 °C
+      default_target_temperature_high: 20 °C
+    visual:
+      min_temperature: 10 °C
+      max_temperature: 30 °C
+      temperature_step: 0.1 °C
+
+      
+  - platform: thermostat
+    id: bedroom_thermostat
+    name: "Chambre thermostat"
+    sensor: Bedroom_temperature
+    default_target_temperature_low: 18 °C
+    default_target_temperature_high: 20 °C
+    hysteresis : 0 #0.5 # 0.5°C
+    heat_action:
+      - while:
+          condition:
+              lambda: 'return 1;' #infinite loop
+          then:
+          - script.execute: bedroom_check_temp
+          - delay: !lambda 'return id(check_interval) * 1000;'
+    cool_action:
+      - while:
+          condition:
+              lambda: 'return 1;' #infinite loop
+          then:
+          - script.execute: bedroom_check_temp
+          - delay: !lambda 'return id(check_interval) * 1000;'
+    idle_action:
+            #- cover.stop: CH7_cover
+            - script.stop: bedroom_check_temp
+    away_config:
+      default_target_temperature_low: 17 °C
+      default_target_temperature_high: 19 °C
+    visual:
+      min_temperature: 10 °C
+      max_temperature: 30 °C
+      temperature_step: 0.1 °C
+
+      
+  - platform: thermostat
+    id: bathroom_thermostat
+    name: "Bain thermostat"
+    sensor: Bathroom_temperature
+    default_target_temperature_low: 20 °C
+    default_target_temperature_high: 22 °C
+    hysteresis : 0 #0.5 # 0.5°C
+    heat_action:
+      - while:
+          condition:
+              lambda: 'return 1;' #infinite loop
+          then:
+          - script.execute: bathroom_check_temp
+          - delay: !lambda 'return id(check_interval) * 1000;'
+    cool_action:
+      - while:
+          condition:
+              lambda: 'return 1;' #infinite loop
+          then:
+          - script.execute: bathroom_check_temp
+          - delay: !lambda 'return id(check_interval) * 1000;'
+    idle_action:
+            #- cover.stop: CH8_cover
+            - script.stop: bathroom_check_temp
+    away_config:
+      default_target_temperature_low: 18 °C
+      default_target_temperature_high: 20 °C
+    visual:
+      min_temperature: 10 °C
+      max_temperature: 30 °C
+      temperature_step: 0.1 °C
+
+
+  - platform: thermostat
+    id: general_thermostat
+    name: "General thermostat"
+    sensor: Living_room_temperature
+    default_target_temperature_low: 20 °C
+    default_target_temperature_high: 22 °C
+    hysteresis : 0 #0.5 # 0.5°C
+    heat_action:
+      - while:
+          condition:
+              lambda: 'return 1;' #infinite loop
+          then:
+          - script.execute: general_check_temp
+          - delay: !lambda 'return id(check_interval) * 1000;'
+    cool_action:
+      - while:
+          condition:
+              lambda: 'return 1;' #infinite loop
+          then:
+          - script.execute: general_check_temp
+          - delay: !lambda 'return id(check_interval) * 1000;'
+    idle_action:
+            - script.stop: general_check_temp
+    away_config:
+      default_target_temperature_low: 18 °C
+      default_target_temperature_high: 20 °C
+    visual:
+      min_temperature: 10 °C
+      max_temperature: 30 °C
+      temperature_step: 0.1 °C
+      
+
+
+script:
+  - id: test_BEMF1
+    then:
+         - lambda: |-
+                ESP_LOGD("main", "test BEMF1");
+                ESP_LOGD("main", "BEMF_1_sensor_ADC state: %f", id(BEMF_1_sensor_ADC).state);
+                //ESP_LOGD("main", "BEMF_1_sensor_ADC: %f", id(BEMF_1_sensor_ADC));
+                ESP_LOGD("main", "bemf_trigger_1: %f", id(bemf_trigger_1));
+                
+                
+  - id: office_check_temp
+    then:
+         - lambda: |-
+                ESP_LOGD("main", "office_check_temp triggered");
+                // check if any others actuator is running. If yes, stop action and return. 
+                if (id(CH5_cover).current_operation != COVER_OPERATION_IDLE) {
+                       ESP_LOGD("main", "CH5 running cause CH6 cancel operation");
+                       return;
+                } 
+                // get info from climate
+                float current_temp = id(office_thermostat).current_temperature;
+                float target_temp_low = id(office_thermostat).target_temperature_low;
+                float target_temp_high = id(office_thermostat).target_temperature_high ;
+                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
+                
+                // get info from cover
+                float current_position = id(CH6_cover).position;
+                
+                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
+                //simplified =>  f(x) = (x+1)/2
+                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
+                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                
+                //normalize
+                if (target_position >1) { target_position = 1;} 
+                if (target_position <0) { target_position = 0;} 
+                
+                /*
+                ESP_LOGD("main", "CH6 debug target_position : %f", target_position);
+                ESP_LOGD("main", "CH6 debug current_position : %f", current_position);
+                ESP_LOGD("main", "CH6 debug diff_temp : %f", diff_temp);
+                */
+                
+                //call movement if target_position change consequently
+                if (abs(current_position - target_position) > 0.01) {
+                    auto call = id(CH6_cover).make_call();
+                    call.set_position(target_position);
+                    call.perform();
+                    ESP_LOGD("main", "Adjustment done for CH6 set to position %f", target_position);
+                }
+                
+                
+  - id: bedroom_check_temp
+    then:
+         - lambda: |-
+                ESP_LOGD("main", "bedroom_check_temp triggered");
+                // check if any others actuator is running. If yes, stop action and return. 
+                if (id(CH8_cover).current_operation != COVER_OPERATION_IDLE) {
+                       ESP_LOGD("main", "CH8 running cause CH7 cancel operation");
+                       return;
+                } 
+                // get info from climate
+                float current_temp = id(bedroom_thermostat).current_temperature;
+                float target_temp_low = id(bedroom_thermostat).target_temperature_low;
+                float target_temp_high = id(bedroom_thermostat).target_temperature_high ;
+                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
+                
+                // get info from cover
+                float current_position = id(CH7_cover).position;
+                
+                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
+                //simplified =>  f(x) = (x+1)/2
+                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
+                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                
+                //normalize
+                if (target_position >1) { target_position = 1;} 
+                if (target_position <0) { target_position = 0;} 
+
+
+                //call movement if target_position change consequently
+                if (abs(current_position - target_position) > 0.01) {
+                    auto call = id(CH7_cover).make_call();
+                    call.set_position(target_position);
+                    call.perform();
+                    ESP_LOGD("main", "Adjustment done for CH7 set to position %f", target_position);
+                }
+                
+                
+  - id: bathroom_check_temp
+    then:
+         - lambda: |-
+                ESP_LOGD("main", "bathroom_check_temp triggered");
+                // check if any others actuator is running. If yes, stop action and return. 
+                if (id(CH7_cover).current_operation != COVER_OPERATION_IDLE) {
+                       ESP_LOGD("main", "CH7 running cause CH8 cancel operation");
+                       return;
+                } 
+                
+                // get info from climate
+                float current_temp = id(bathroom_thermostat).current_temperature;
+                float target_temp_low = id(bathroom_thermostat).target_temperature_low;
+                float target_temp_high = id(bathroom_thermostat).target_temperature_high ;
+                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
+                
+                // get info from cover
+                float current_position = id(CH8_cover).position;
+                
+                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
+                //simplified =>  f(x) = (x+1)/2
+                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
+                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                
+                //normalize
+                if (target_position >1) { target_position = 1;} 
+                if (target_position <0) { target_position = 0;} 
+                
+
+                //call movement if target_position change consequently
+                if (abs(current_position - target_position) > 0.01) {
+                    auto call = id(CH8_cover).make_call();
+                    call.set_position(target_position);
+                    call.perform();
+                    ESP_LOGD("main", "Adjustment done for CH8 set to position %f", target_position);
+                }
+                
+                
+  - id: general_check_temp
+    then:
+         - lambda: |-
+                ESP_LOGD("main", "general_check_temp triggered");
+                // check if any others actuator is running. If yes, stop action and return. 
+                if (id(CH1_cover).current_operation != COVER_OPERATION_IDLE) {
+                       ESP_LOGD("main", "CH1 running cause CH2-5 cancel operation");
+                       return;
+                } 
+                if (id(CH2_cover).current_operation != COVER_OPERATION_IDLE) {
+                       ESP_LOGD("main", "CH2 running cause CH1+3-5 cancel operation");
+                       return;
+                } 
+                if (id(CH3_cover).current_operation != COVER_OPERATION_IDLE) {
+                       ESP_LOGD("main", "CH3 running cause CH1-2+4-5 cancel operation");
+                       return;
+                } 
+                if (id(CH4_cover).current_operation != COVER_OPERATION_IDLE) {
+                       ESP_LOGD("main", "CH4 running cause CH1-3+5 cancel operation");
+                       return;
+                } 
+                if (id(CH5_cover).current_operation != COVER_OPERATION_IDLE) {
+                       ESP_LOGD("main", "CH5 running cause CH1-4 cancel operation");
+                       return;
+                } 
+                
+                // get info from climate
+                float current_temp = id(general_thermostat).current_temperature;
+                float target_temp_low = id(general_thermostat).target_temperature_low;
+                float target_temp_high = id(general_thermostat).target_temperature_high ;
+                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
+                
+                // get info from cover
+                float current_position_CH1 = id(CH1_cover).position;
+                float current_position_CH2 = id(CH2_cover).position;
+                float current_position_CH3 = id(CH3_cover).position;
+                float current_position_CH4 = id(CH4_cover).position;
+                float current_position_CH5 = id(CH5_cover).position;
+                
+                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
+                //simplified =>  f(x) = (x+1)/2
+                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
+                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                
+                //normalize
+                if (target_position >1) { target_position = 1;} 
+                if (target_position <0) { target_position = 0;} 
+                
+                //call movement if target_position change consequently
+                if (abs(current_position_CH1 - target_position) > 0.01) {
+                    auto call_CH1 = id(CH1_cover).make_call();
+                    call_CH1.set_position(target_position);
+                    call_CH1.perform();
+                    ESP_LOGD("main", "Adjustment done for CH1 set to position %f", target_position);
+                }
+                
+                if (abs(current_position_CH2 - target_position) > 0.01) {
+                    auto call_CH2 = id(CH2_cover).make_call();
+                    call_CH2.set_position(target_position);
+                    call_CH2.perform();
+                    ESP_LOGD("main", "Adjustment done for CH2 set to position %f", target_position);
+                }
+                
+                if (abs(current_position_CH3 - target_position) > 0.01) {
+                    auto call_CH3 = id(CH3_cover).make_call();
+                    call_CH3.set_position(target_position);
+                    call_CH3.perform();
+                    ESP_LOGD("main", "Adjustment done for CH3 set to position %f", target_position);
+                }
+                
+                if (abs(current_position_CH4 - target_position) > 0.01) {
+                    auto call_CH4 = id(CH4_cover).make_call();
+                    call_CH4.set_position(target_position);
+                    call_CH4.perform();
+                    ESP_LOGD("main", "Adjustment done for CH4 set to position %f", target_position);
+                }        
+                
+                 if (abs(current_position_CH5 - target_position) > 0.01) {
+                    auto call_CH5 = id(CH5_cover).make_call();
+                    call_CH5.set_position(target_position);
+                    call_CH5.perform();
+                    ESP_LOGD("main", "Adjustment done for CH5 set to position %f", target_position);
+                }   
+                /*
+                //call movement if target_position change consequently
+                if (abs(current_position - target_position) > 0.01) {
+                    auto call_CH1 = id(CH1_cover).make_call();
+                    call_CH1.set_position(target_position);
+                    call_CH1.perform();
+                    auto call_CH2 = id(CH2_cover).make_call();
+                    call_CH2.set_position(target_position);
+                    call_CH2.perform();
+                    auto call_CH3 = id(CH3_cover).make_call();
+                    call_CH3.set_position(target_position);
+                    call_CH3.perform();
+                    auto call_CH4 = id(CH4_cover).make_call();
+                    call_CH4.set_position(target_position);
+                    call_CH4.perform();
+                    auto call_CH5 = id(CH5_cover).make_call();
+                    call_CH5.set_position(target_position);
+                    call_CH5.perform();
+                    ESP_LOGD("main", "Adjustment done for CH1-5 set to position %f", target_position);
+                }
+                */
+                
+                
+  - id: calibrate_CH1_cover
+    then:
+      - logger.log: "Calibrate CH1_cover"
+      - cover.close: CH1_cover
+      - delay: 2s
+      - cover.stop: CH1_cover
+      - cover.open: CH1_cover
+      - delay: 50s
+      - cover.stop: CH1_cover
+      - cover.close: CH1_cover
+      - delay: 50s
+      - cover.stop: CH1_cover
+
+  - id: calibrate_CH2_cover
+    then:
+      - logger.log: "Calibrate CH2_cover"
+      - cover.close: CH2_cover
+      - delay: 2s
+      - cover.stop: CH2_cover
+      - cover.open: CH2_cover
+      - delay: 50s
+      - cover.stop: CH2_cover
+      - cover.close: CH2_cover
+      - delay: 50s
+      - cover.stop: CH2_cover
+
+  - id: calibrate_CH3_cover
+    then:
+      - logger.log: "Calibrate CH3_cover"
+      - cover.close: CH3_cover
+      - delay: 2s
+      - cover.stop: CH3_cover
+      - cover.open: CH3_cover
+      - delay: 50s
+      - cover.stop: CH3_cover
+      - cover.close: CH3_cover
+      - delay: 50s
+      - cover.stop: CH3_cover
+
+  - id: calibrate_CH4_cover
+    then:
+      - logger.log: "Calibrate CH4_cover"
+      - cover.close: CH4_cover
+      - delay: 2s
+      - cover.stop: CH4_cover
+      - cover.open: CH4_cover
+      - delay: 50s
+      - cover.stop: CH4_cover
+      - cover.close: CH4_cover
+      - delay: 50s
+      - cover.stop: CH4_cover
+
+
+  - id: calibrate_CH5_cover
+    then:
+      - logger.log: "Calibrate CH5_cover"
+      - cover.close: CH5_cover
+      - delay: 2s
+      - cover.stop: CH5_cover
+      - cover.open: CH5_cover
+      - delay: 50s
+      - cover.stop: CH5_cover
+      - cover.close: CH5_cover
+      - delay: 50s
+      - cover.stop: CH5_cover
+       
+ 
+  - id: calibrate_CH6_cover
+    then:
+      - logger.log: "Calibrate CH6_cover"
+      - cover.close: CH6_cover
+      - delay: 2s
+      - cover.stop: CH6_cover
+      - cover.open: CH6_cover
+      - delay: 50s
+      - cover.stop: CH6_cover
+      - cover.close: CH6_cover
+      - delay: 50s
+      - cover.stop: CH6_cover
+
+  - id: calibrate_CH7_cover
+    then:
+      - logger.log: "Calibrate CH7_cover"
+      - cover.close: CH7_cover
+      - delay: 2s
+      - cover.stop: CH7_cover
+      - cover.open: CH7_cover
+      - delay: 50s
+      - cover.stop: CH7_cover
+      - cover.close: CH7_cover
+      - delay: 50s
+      - cover.stop: CH7_cover
+
+
+  - id: calibrate_CH8_cover
+    then:
+      - logger.log: "Calibrate CH8_cover"
+      - cover.close: CH8_cover
+      - delay: 2s
+      - cover.stop: CH8_cover
+      - cover.open: CH8_cover
+      - delay: 50s
+      - cover.stop: CH8_cover
+      - cover.close: CH8_cover
+      - delay: 50s
+      - cover.stop: CH8_cover
+    
+
+  - id: valve_maintenance
+    then:
+      - script.execute: calibrate_CH1_cover
+      - script.execute: calibrate_CH3_cover
+      - script.execute: calibrate_CH5_cover
+      - script.execute: calibrate_CH7_cover
+      - delay: 120s
+      - script.execute: calibrate_CH2_cover
+      - script.execute: calibrate_CH4_cover
+      - script.execute: calibrate_CH6_cover
+      - script.execute: calibrate_CH8_cover
+      
+
+
+# SN74HC595 I/O Expander (shift register)
+sn74hc595:
+  - id: 'sn74hc595_hub'
+    data_pin: GPIO16 #Pin connected to SN74HC595 SER input
+    clock_pin: GPIO5 #Pin connected to SN74HC595 SRCLK pin
+    latch_pin: GPIO17 #Pin connected to SN74HC595 RCLK pin
+    oe_pin: GPIO18 ### needed by esphome, but connected to GND (outputEnable is used only for pwm all th pin)
+    sr_count: 2 #Number of daisy-chained shift registers, up-to 4
+      
+################# L9110s control under endstop cover template and gpio + adc for sensor. Note touch can also be used   but limited in pin number
+################# L9110s trough shift register
+  
+switch:
+    ### CH1
+  - platform: gpio
+    name: "CH1 IA"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 0
+      inverted: False
+    id: CH1_IA_pin
+    interlock: &interlock_group_CH1 [CH1_IA_pin, CH1_IB_pin]
+    restore_mode: always off
+  - platform: gpio
+    name: "CH1 IB"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 1
+      inverted: False
+    id: CH1_IB_pin
+    interlock: *interlock_group_CH1
+    restore_mode: always off
+    ### CH2
+  - platform: gpio
+    name: "CH2 IA"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 2
+      inverted: False
+    id: CH2_IA_pin
+    interlock: &interlock_group_CH2 [CH2_IA_pin, CH2_IB_pin]
+    restore_mode: always off
+  - platform: gpio
+    name: "CH2 IB"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 3
+      inverted: False
+    id: CH2_IB_pin
+    interlock: *interlock_group_CH2
+    restore_mode: always off
+    ### CH3
+  - platform: gpio
+    name: "CH3 IA"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 4
+      inverted: False
+    id: CH3_IA_pin
+    interlock: &interlock_group_CH3 [CH3_IA_pin, CH3_IB_pin]
+    restore_mode: always off
+  - platform: gpio
+    name: "CH3 IB"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 5
+      inverted: False
+    id: CH3_IB_pin
+    interlock: *interlock_group_CH3
+    restore_mode: always off    
+    ### CH4
+  - platform: gpio
+    name: "CH4 IA"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 6
+      inverted: False
+    id: CH4_IA_pin
+    interlock: &interlock_group_CH4 [CH4_IA_pin, CH4_IB_pin]
+    restore_mode: always off
+  - platform: gpio
+    name: "CH4 IB"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 7
+      inverted: False
+    id: CH4_IB_pin
+    interlock: *interlock_group_CH4
+    restore_mode: always off    
+    ### CH5
+  - platform: gpio
+    name: "CH5 IA"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 8
+      inverted: False
+    id: CH5_IA_pin
+    interlock: &interlock_group_CH5 [CH5_IA_pin, CH5_IB_pin]
+    restore_mode: always off
+  - platform: gpio
+    name: "CH5 IB"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 9
+      inverted: False
+    id: CH5_IB_pin
+    interlock: *interlock_group_CH5
+    restore_mode: always off    
+    ### CH6
+  - platform: gpio
+    name: "CH6 IA"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 10
+      inverted: False
+    id: CH6_IA_pin
+    interlock: &interlock_group_CH6 [CH6_IA_pin, CH6_IB_pin]
+    restore_mode: always off
+  - platform: gpio
+    name: "CH6 IB"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 11
+      inverted: False
+    id: CH6_IB_pin
+    interlock: *interlock_group_CH6
+    restore_mode: always off  
+    ### CH7
+  - platform: gpio
+    name: "CH7 IA"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 12
+      inverted: False
+    id: CH7_IA_pin
+    interlock: &interlock_group_CH7 [CH7_IA_pin, CH7_IB_pin]
+    restore_mode: always off
+  - platform: gpio
+    name: "CH7 IB"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 13
+      inverted: False
+    id: CH7_IB_pin
+    interlock: *interlock_group_CH7
+    restore_mode: always off  
+    ### CH8
+  - platform: gpio
+    name: "CH8 IA"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 14
+      inverted: False
+    id: CH8_IA_pin
+    interlock: &interlock_group_CH8 [CH8_IA_pin, CH8_IB_pin]
+    restore_mode: always off
+  - platform: gpio
+    name: "CH8 IB"
+    pin:
+      sn74hc595: sn74hc595_hub
+      number: 15
+      inverted: False
+    id: CH8_IB_pin
+    interlock: *interlock_group_CH8
+    restore_mode: always off      
+ 
+    
+    #reboot
+  - platform: restart
+    name: "Restart"
+    icon: "mdi:restart"
+    id: floor_heating_ctrl_reboot    
+
+  - platform: template
+    name: "Valve maintenance"
+    turn_on_action:
+      - script.execute: valve_maintenance
+      
+  - platform: template
+    name: "Force office check temp"
+    turn_on_action:
+      - script.execute: office_check_temp      
+
+  - platform: template
+    name: "Force bedroom check temp"
+    turn_on_action:
+      - script.execute: bedroom_check_temp    
+
+  - platform: template
+    name: "Force bathroom check temp"
+    turn_on_action:
+      - script.execute: bathroom_check_temp    
+
+  - platform: template
+    name: "Force general check temp"
+    turn_on_action:
+      - script.execute: general_check_temp          
+ 
+  - platform: template
+    name: "test_BEMF1"
+    turn_on_action:
+      - script.execute: test_BEMF1    
+      
+
+
+globals:
+  - id: check_interval
+    type: int
+    restore_value: no
+    initial_value: '900'  #30 = 30 sec for debug 
+    #initial_value: '900' #900 for 15 min default
+    
+    ### 1R resistor removed cause values are at 6mv in use with a start at 15mv and endstop at 56-58mv. The esp32 range is more than 100mv
+    ### without resistor the values are 0.8v in use and 1.6 at endstop => make trouble for esp32 (hangs or crashes)
+    ### 2x 12 ohm resistors give good endstop at 0.5v (72mv in use with peak at 145mv)
+    ### 8x 12 ohm resistors (2 per channel) vary voltage from 0.55 to 1.1 v depending the number of BEMF (1.6v) activated at the same time (max 1 per channel) : 4 BEMF = 0.57v ;3=0.8;2=0.9;1=1.1
+    ### only one 12 ohm resistor can be used and give 0.8v endstop value (145mv in use with peak at 290mv)
+  - id: bemf_trigger_1
+    type: float 
+    restore_value: no
+    initial_value: '0.45' #'0.24' #'0.015'  #  0.080V #for 0 V and 0.1 V you’ll get the same value: 0 https://randomnerdtutorials.com/esp32-adc-analog-read-arduino-ide/
+  - id: bemf_trigger_2
+    type: float 
+    restore_value: no
+    initial_value: '0.45' #'0.35' #'0.015'  #  0.080V
+  - id: bemf_trigger_3
+    type: float 
+    restore_value: no
+    initial_value: '0.45' #'0.33' #'0.015'  #  0.080V
+  - id: bemf_trigger_4
+    type: float 
+    restore_value: no
+    initial_value: '0.45' #'0.32' #'0.015'  #  0.080V
+
+
+cover:
+  - platform: endstop
+    name: "CH1"
+    open_action:
+      - switch.turn_on: CH1_IB_pin
+      - switch.turn_off: CH1_IA_pin
+    open_duration: 40s #39s
+    open_endstop: BEMF_1_sensor
+    close_action:
+      - switch.turn_on: CH1_IA_pin
+      - switch.turn_off: CH1_IB_pin
+    close_duration: 50s #49s
+    close_endstop: BEMF_1_sensor
+    stop_action:
+      - switch.turn_off: CH1_IA_pin
+      - switch.turn_off: CH1_IB_pin
+    max_duration : 55s
+    id: CH1_cover
+  - platform: endstop
+    name: "CH2"
+    open_action:
+      - switch.turn_on: CH2_IB_pin
+      - switch.turn_off: CH2_IA_pin
+    open_duration: 40s #39s
+    open_endstop: BEMF_1_sensor
+    close_action:
+      - switch.turn_on: CH2_IA_pin
+      - switch.turn_off: CH2_IB_pin
+    close_duration: 50s #49s
+    close_endstop: BEMF_1_sensor
+    stop_action:
+      - switch.turn_off: CH2_IA_pin
+      - switch.turn_off: CH2_IB_pin
+    max_duration : 55s
+    id: CH2_cover
+  - platform: endstop
+    name: "CH3"
+    open_action:
+      - switch.turn_on: CH3_IB_pin
+      - switch.turn_off: CH3_IA_pin
+    open_duration: 40s #39s
+    open_endstop: BEMF_2_sensor
+    close_action:
+      - switch.turn_on: CH3_IA_pin
+      - switch.turn_off: CH3_IB_pin
+    close_duration: 50s #49s
+    close_endstop: BEMF_2_sensor
+    stop_action:
+      - switch.turn_off: CH3_IA_pin
+      - switch.turn_off: CH3_IB_pin
+    max_duration : 55s
+    id: CH3_cover
+  - platform: endstop
+    name: "CH4"
+    open_action:
+      - switch.turn_on: CH4_IB_pin
+      - switch.turn_off: CH4_IA_pin
+    open_duration: 40s #39s
+    open_endstop: BEMF_2_sensor
+    close_action:
+      - switch.turn_on: CH4_IA_pin
+      - switch.turn_off: CH4_IB_pin
+    close_duration: 50s #49s
+    close_endstop: BEMF_2_sensor
+    stop_action:
+      - switch.turn_off: CH4_IA_pin
+      - switch.turn_off: CH4_IB_pin
+    max_duration : 55s
+    id: CH4_cover  
+  - platform: endstop
+    name: "CH5"
+    open_action:
+      - switch.turn_on: CH5_IB_pin
+      - switch.turn_off: CH5_IA_pin
+    open_duration: 40s #39s
+    open_endstop: BEMF_3_sensor
+    close_action:
+      - switch.turn_on: CH5_IA_pin
+      - switch.turn_off: CH5_IB_pin
+    close_duration: 50s #49s
+    close_endstop: BEMF_3_sensor
+    stop_action:
+      - switch.turn_off: CH5_IA_pin
+      - switch.turn_off: CH5_IB_pin
+    max_duration : 55s
+    id: CH5_cover
+  - platform: endstop
+    name: "CH6"
+    open_action:
+      - switch.turn_on: CH6_IB_pin
+      - switch.turn_off: CH6_IA_pin
+    open_duration: 40s #39s
+    open_endstop: BEMF_3_sensor
+    close_action:
+      - switch.turn_on: CH6_IA_pin
+      - switch.turn_off: CH6_IB_pin
+    close_duration: 50s #49s
+    close_endstop: BEMF_3_sensor
+    stop_action:
+      - switch.turn_off: CH6_IA_pin
+      - switch.turn_off: CH6_IB_pin
+    max_duration : 55s
+    id: CH6_cover    
+  - platform: endstop
+    name: "CH7"
+    open_action:
+      - switch.turn_on: CH7_IB_pin
+      - switch.turn_off: CH7_IA_pin
+    open_duration: 40s #39s
+    open_endstop: BEMF_4_sensor
+    close_action:
+      - switch.turn_on: CH7_IA_pin
+      - switch.turn_off: CH7_IB_pin
+    close_duration: 50s #49s
+    close_endstop: BEMF_4_sensor
+    stop_action:
+      - switch.turn_off: CH7_IA_pin
+      - switch.turn_off: CH7_IB_pin
+    max_duration : 55s
+    id: CH7_cover    
+  - platform: endstop
+    name: "CH8"
+    open_action:
+      - switch.turn_on: CH8_IB_pin
+      - switch.turn_off: CH8_IA_pin
+    open_duration: 40s #39s
+    open_endstop: BEMF_4_sensor
+    close_action:
+      - switch.turn_on: CH8_IA_pin
+      - switch.turn_off: CH8_IB_pin
+    close_duration: 50s #49s
+    close_endstop: BEMF_4_sensor
+    stop_action:
+      - switch.turn_off: CH8_IA_pin
+      - switch.turn_off: CH8_IB_pin
+    max_duration : 55s
+    id: CH8_cover
+
+    
+    
+binary_sensor:
+  - platform: template
+    id: BEMF_1_sensor
+    name: "BEMF 1 sensor"
+    lambda: |-
+                //ESP_LOGD("debug", "BEMF_1_sensor_ADC state: %f", id(BEMF_1_sensor_ADC).state);
+                return (id(BEMF_1_sensor_ADC).state >= id(bemf_trigger_1));
+    on_press:
+      then: 
+         - lambda: |-
+                if (id(CH1_cover).current_operation == COVER_OPERATION_OPENING) {
+                    auto call = id(CH1_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH1 opening endstop reached");
+                    id(CH1_cover).position  = 1; //1.0 = 100% = OPEN
+                    id(CH1_cover).publish_state();
+                 } else if (id(CH1_cover).current_operation == COVER_OPERATION_CLOSING) {
+                    auto call = id(CH1_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH1 closing endstop reached");
+                    id(CH1_cover).position  = 0;
+                    id(CH1_cover).publish_state();
+                 } else if (id(CH2_cover).current_operation == COVER_OPERATION_OPENING) {
+                    auto call = id(CH2_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH2 opening endstop reached");
+                    id(CH2_cover).position  = 1; //1.0 = 100% = OPEN
+                    id(CH2_cover).publish_state();
+                 } else if (id(CH2_cover).current_operation == COVER_OPERATION_CLOSING) {
+                    auto call = id(CH2_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH2 closing endstop reached");
+                    id(CH2_cover).position  = 0;
+                    id(CH2_cover).publish_state();
+                 }
+                 
+
+  - platform: template
+    id: BEMF_2_sensor
+    name: "BEMF 2 sensor"
+    lambda: return (id(BEMF_2_sensor_ADC).state >= id(bemf_trigger_2));
+    on_press:
+      then: 
+         - lambda: |-
+                if (id(CH3_cover).current_operation == COVER_OPERATION_OPENING) {
+                    auto call = id(CH3_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH3 opening endstop reached");
+                    id(CH3_cover).position  = 1;
+                    id(CH3_cover).publish_state();
+                 } else if (id(CH3_cover).current_operation == COVER_OPERATION_CLOSING) {
+                    auto call = id(CH3_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH3 closing endstop reached");
+                    id(CH3_cover).position  = 0;
+                    id(CH3_cover).publish_state();
+                 } else if (id(CH4_cover).current_operation == COVER_OPERATION_OPENING) {
+                    auto call = id(CH4_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH4 opening endstop reached");
+                    id(CH4_cover).position  = 1;
+                    id(CH4_cover).publish_state();
+                 } else if (id(CH4_cover).current_operation == COVER_OPERATION_CLOSING) {
+                    auto call = id(CH4_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH4 closing endstop reached");
+                    id(CH4_cover).position  = 0;
+                    id(CH4_cover).publish_state();
+                 }
+    
+  - platform: template
+    id: BEMF_3_sensor
+    name: "BEMF 3 sensor"
+    lambda: return (id(BEMF_3_sensor_ADC).state >= id(bemf_trigger_3));
+    on_press:
+      then: 
+         - lambda: |-
+                if (id(CH5_cover).current_operation == COVER_OPERATION_OPENING) {
+                    auto call = id(CH5_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH5 opening endstop reached");
+                    id(CH5_cover).position  = 1;
+                    id(CH5_cover).publish_state();
+                 } else if (id(CH5_cover).current_operation == COVER_OPERATION_CLOSING) {
+                    auto call = id(CH5_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH5 closing endstop reached");
+                    id(CH5_cover).position  = 0;
+                    id(CH5_cover).publish_state();
+                 } else if (id(CH6_cover).current_operation == COVER_OPERATION_OPENING) {
+                    auto call = id(CH6_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH6 opening endstop reached");
+                    id(CH6_cover).position  = 1;
+                    id(CH6_cover).publish_state();
+                 } else if (id(CH6_cover).current_operation == COVER_OPERATION_CLOSING) {
+                    auto call = id(CH6_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH6 closing endstop reached");
+                    id(CH6_cover).position  = 0;
+                    id(CH6_cover).publish_state();
+                 }
+    
+  - platform: template
+    id: BEMF_4_sensor
+    name: "BEMF 4 sensor"
+    lambda: return (id(BEMF_4_sensor_ADC).state >= id(bemf_trigger_4));
+    on_press:
+      then: 
+         - lambda: |-
+                if (id(CH7_cover).current_operation == COVER_OPERATION_OPENING) {
+                    auto call = id(CH7_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH7 opening endstop reached");
+                    id(CH7_cover).position  = 1;
+                    id(CH7_cover).publish_state();
+                 } else if (id(CH7_cover).current_operation == COVER_OPERATION_CLOSING) {
+                    auto call = id(CH7_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH7 closing endstop reached");
+                    id(CH7_cover).position  = 0;
+                    id(CH7_cover).publish_state();
+                 } else if (id(CH8_cover).current_operation == COVER_OPERATION_OPENING) {
+                    auto call = id(CH8_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH8 opening endstop reached");
+                    id(CH8_cover).position  = 1;
+                    id(CH8_cover).publish_state();
+                 } else if (id(CH8_cover).current_operation == COVER_OPERATION_CLOSING) {
+                    auto call = id(CH8_cover).make_call();
+                    call.set_command_stop();
+                    call.perform();
+                    ESP_LOGD("endstop", "CH8 closing endstop reached");
+                    id(CH8_cover).position  = 0;
+                    id(CH8_cover).publish_state();
+                 }
+    
+ 
+
+sensor:
+#ADC2 pins cannot be used when Wi-Fi is used
+### in use the motor use 15-20 mV. At endstop, it raise to 50 mV
+  - platform: adc
+    pin: GPIO36
+    name: "BEMF 1" #CH1 + CH2
+    update_interval: 750ms
+    attenuation : 6db # 150-1750mv  #0 for a full-scale voltage of 3.9V#6db #for a full-scale voltage of 2.2V #https://esphome.io/components/sensor/adc.html & https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/adc.html#_CPPv225adc1_config_channel_atten14adc1_channel_t11adc_atten_t
+    id : BEMF_1_sensor_ADC
+
+  - platform: adc
+    pin: GPIO39
+    name: "BEMF 2" #CH3 + CH4
+    update_interval: 750ms
+    attenuation : 6db # 150-1750mv 
+    id : BEMF_2_sensor_ADC
+
+  - platform: adc
+    pin: GPIO34
+    name: "BEMF 3" #CH5 + CH6
+    update_interval: 750ms
+    attenuation : 6db # 150-1750mv
+    id : BEMF_3_sensor_ADC
+
+  - platform: adc
+    pin: GPIO35
+    name: "BEMF 4" #CH7 + CH8
+    update_interval: 750ms
+    attenuation : 6db # 150-1750mv
+    id : BEMF_4_sensor_ADC
+
+
+  - platform: homeassistant
+    name: "Office temperature sensor from hassio"
+    entity_id: sensor.bureau_temperature
+    #update_interval: 60s
+    id: Office_temperature
+
+  - platform: homeassistant
+    name: "Living room temperature sensor from hassio"
+    entity_id: sensor.salon_temperature
+    id: Living_room_temperature
+
+  - platform: homeassistant
+    name: "Bedroom temperature sensor from hassio"
+    entity_id: sensor.chambre_temperature
+    id: Bedroom_temperature
+
+  # - platform: homeassistant
+    # name: "Corridor temperature sensor from hassio"
+    # entity_id: sensor.corridor_temperature
+    # id: Corridor_temperature
+
+  - platform: homeassistant
+    name: "Bathroom temperature sensor from hassio"
+    entity_id: sensor.bain_temperature
+    id: Bathroom_temperature
+
+  - platform: uptime
+    name: Uptime
+    id: floor_heating_uptime
+
+
+web_server:
+  port: 80
+
+
+    
+
+
+
