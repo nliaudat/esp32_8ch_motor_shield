@@ -6,7 +6,7 @@
 The ready to go board costs less than 14$
 
 ## Functionalities : 
-* The card use a ESP32-WROOM-32D as logics and wifi connection. 
+* The card use a ESP32-WROOM-32D as logics and wifi connection. (You can get a 32U if you want an external antenna)
 * The software runs under esphome to be easy to customize and link with hass.io 
 * Can be extended up to 16 channels
 * Use BEMF (back electromotive force) from motors to get endstops
