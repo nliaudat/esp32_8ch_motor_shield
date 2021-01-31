@@ -1,16 +1,18 @@
 # An ESP32 based 8 channels motor controller 
-(to replace Homematic IP Floor Heating Actuator [HmIP-FALMOT-C12] ~210$ + [CCU3] ~150$)
+(Can replace Homematic IP Floor Heating Actuator [HmIP-FALMOT-C12] ~210$ + [CCU3] ~150$)
 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/board.jpg "board")
 
 The ready to go board costs less than 14$
 
 ## Functionalities : 
+* Can control 8 DC motors or 4 steppers motor
+* Can drive 8 Homematic valve actuators [HmIP-VDMOT] (~15$ each)
 * The card use a ESP32-WROOM-32D as logics and wifi connection. (You can get a 32U if you want an external antenna)
-* The software runs under esphome to be easy to customize and link with hass.io 
+* The software runs under esphome to be easy to customize and linked with https://www.home-assistant.io 
 * Can be extended up to 16 channels (I recommend to get 2 boards for better performances, but the shifts registers can be extended up to 4)
 * Use BEMF (back electromotive force) from motors to get endstops
-
+* Can be directly linked to external temperature sensors (wifi or BLE)
 
 
 ## Fabrication : 
