@@ -22,9 +22,9 @@ The ready to go board costs less than 14$
 * ESP32-WROOM-32D costs approx 3.8$
 * Box is 3D printed
 
-#New version 1.3 : 
+## New version 1.3 : 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/v1-3.png "1.3")
 
-#Licence: 
+## Licence: 
 * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
 * No commercial use
