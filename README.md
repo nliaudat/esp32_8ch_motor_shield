@@ -25,3 +25,6 @@ The ready to go board costs less than 14$
 #New version 1.3 : 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/v1-3.png "1.3")
 
+#Licence: 
+* Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+* No commercial use
