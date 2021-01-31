@@ -7,7 +7,7 @@ pip install --upgrade platformio
 
 #Preparation
 * Connect the ESP32 board trough usb (only the first time)
-* Modify the code (the ip adresse) or connect non hassi.io temperatures sensors (look at https://esphome.io/)
+* Modify the code (the ip adress) or connect temperatures sensors (look at https://esphome.io/)
 
 #compile
 ```
