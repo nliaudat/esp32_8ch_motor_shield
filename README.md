@@ -30,3 +30,4 @@ The ready to go board costs less than 14$
 ## Licence: 
 * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC-BY-NC-SA)
 * No commercial use
+* Actually I did not share the PCB source 
