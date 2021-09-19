@@ -94,7 +94,12 @@ climate:
     sensor: Office_temperature
     default_target_temperature_low: 22 °C
     default_target_temperature_high: 22 °C
-    hysteresis : 0 #0.5 # 0.5°C
+    #hysteresis : 0 #0.5 # 0.5°C
+    min_cooling_off_time: 300s
+    min_cooling_run_time: 300s
+    min_heating_off_time: 300s
+    min_heating_run_time: 300s
+    min_idle_time: 30s
     heat_action:
       - while:
           condition:
@@ -126,7 +131,12 @@ climate:
     sensor: Bedroom_temperature
     default_target_temperature_low: 18 °C
     default_target_temperature_high: 20 °C
-    hysteresis : 0 #0.5 # 0.5°C
+    #hysteresis : 0 #0.5 # 0.5°C
+    min_cooling_off_time: 300s
+    min_cooling_run_time: 300s
+    min_heating_off_time: 300s
+    min_heating_run_time: 300s
+    min_idle_time: 30s
     heat_action:
       - while:
           condition:
@@ -159,7 +169,12 @@ climate:
     sensor: Bathroom_temperature
     default_target_temperature_low: 20 °C
     default_target_temperature_high: 22 °C
-    hysteresis : 0 #0.5 # 0.5°C
+    #hysteresis : 0 #0.5 # 0.5°C
+    min_cooling_off_time: 300s
+    min_cooling_run_time: 300s
+    min_heating_off_time: 300s
+    min_heating_run_time: 300s
+    min_idle_time: 30s
     heat_action:
       - while:
           condition:
@@ -192,7 +207,12 @@ climate:
     sensor: Living_room_temperature
     default_target_temperature_low: 20 °C
     default_target_temperature_high: 22 °C
-    hysteresis : 0 #0.5 # 0.5°C
+    #hysteresis : 0 #0.5 # 0.5°C
+    min_cooling_off_time: 300s
+    min_cooling_run_time: 300s
+    min_heating_off_time: 300s
+    min_heating_run_time: 300s
+    min_idle_time: 30s
     heat_action:
       - while:
           condition:
