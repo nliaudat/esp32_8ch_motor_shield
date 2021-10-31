@@ -1,7 +1,7 @@
 # # change log 
-# # v88 : 
+# # v89 : 
 # # add check for CLIMATE_MODE_OFF 
-# # add default_mode: auto to thermostat  (TODO : fix bug crashing esp32)
+# # add default_mode: auto to thermostat
 # # v85 :
 # # Rollback function tested (bug)
 # # add esp32: routine
@@ -73,7 +73,7 @@ esphome:
         
   project:
     name: "nliaudat.floor-heating-controller"
-    version: "1.87.dev"
+    version: "1.89.dev"
 
 esp32:
   board: nodemcu-32s
@@ -209,6 +209,7 @@ climate:
     id: ${ch1_thermostat_name}_thermostat
     name: ${ch1_thermostat_name}
     sensor: ${ch1_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -217,13 +218,12 @@ climate:
     min_heating_run_time: 300s
     min_idle_time: 30s
     heat_action: 
+#         - logger.log: "${ch1_thermostat_name} turned to Heat mode"
          - lambda: 'return;' # do nothing cause action is triggered by time interval
     cool_action:
          - lambda: 'return;' 
     idle_action:
          - lambda: 'return;' 
-    # off_mode:
-         # - lambda: id(thermostat_1_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -236,6 +236,7 @@ climate:
     id: ${ch2_thermostat_name}_thermostat
     name: ${ch2_thermostat_name}
     sensor: ${ch2_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -249,8 +250,6 @@ climate:
          - lambda: 'return;' 
     idle_action:
          - lambda: 'return;' 
-    # off_mode:
-         # - lambda: id(thermostat_2_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -263,6 +262,7 @@ climate:
     id: ${ch3_thermostat_name}_thermostat
     name: ${ch3_thermostat_name}
     sensor: ${ch3_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -276,8 +276,6 @@ climate:
          - lambda: 'return;' 
     idle_action:
          - lambda: 'return;' 
-    # off_mode:
-         # - lambda: id(thermostat_3_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -290,6 +288,7 @@ climate:
     id: ${ch4_thermostat_name}_thermostat
     name: ${ch4_thermostat_name}
     sensor: ${ch4_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -303,8 +302,6 @@ climate:
          - lambda: 'return;' 
     idle_action:
          - lambda: 'return;' 
-    # off_mode:
-         # - lambda: id(thermostat_4_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -317,6 +314,7 @@ climate:
     id: ${ch5_thermostat_name}_thermostat
     name: ${ch5_thermostat_name}
     sensor: ${ch5_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -330,8 +328,6 @@ climate:
          - lambda: 'return;' 
     idle_action:
          - lambda: 'return;' 
-    # off_mode:
-         # - lambda: id(thermostat_5_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -344,6 +340,7 @@ climate:
     id: ${ch6_thermostat_name}_thermostat
     name: ${ch6_thermostat_name}
     sensor: ${ch6_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -357,8 +354,6 @@ climate:
          - lambda: 'return;' 
     idle_action:
          - lambda: 'return;' 
-    # off_mode:
-         # - lambda: id(thermostat_6_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -371,6 +366,7 @@ climate:
     id: ${ch7_thermostat_name}_thermostat
     name: ${ch7_thermostat_name}
     sensor: ${ch7_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -384,8 +380,6 @@ climate:
          - lambda: 'return;' 
     idle_action:
          - lambda: 'return;' 
-    # off_mode:
-         # - lambda: id(thermostat_7_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -398,6 +392,7 @@ climate:
     id: ${ch8_thermostat_name}_thermostat
     name: ${ch8_thermostat_name}
     sensor: ${ch8_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -411,8 +406,6 @@ climate:
          - lambda: 'return;' 
     idle_action:
          - lambda: 'return;' 
-    # off_mode:
-         # - lambda: id(thermostat_8_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
