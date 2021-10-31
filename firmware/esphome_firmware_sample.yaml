@@ -1,4 +1,8 @@
-# change log v85 : 
+# change log 
+# v86 : 
+# Fix idle variable must be off for climate thermostat
+# add default_mode: auto to thermostat
+# v85 :
 #Rollback function tested (bug)
 # add esp32: routine
 # flash_write_interval: 60min
@@ -201,6 +205,7 @@ climate:
     id: ${ch1_thermostat_name}_thermostat
     name: ${ch1_thermostat_name}
     sensor: ${ch1_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -209,11 +214,13 @@ climate:
     min_heating_run_time: 300s
     min_idle_time: 30s
     heat_action: 
-         - lambda: id(TH1_idle) = false ;
+         - lambda: id(TH1_off) = false ;
     cool_action:
-         - lambda: id(TH1_idle) = false ;
+         - lambda: id(TH1_off) = false ;
     idle_action:
-         - lambda: id(TH1_idle) = true ;
+         - lambda: id(TH1_off) = false ;
+    off_mode:
+         - lambda: id(TH1_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -226,6 +233,7 @@ climate:
     id: ${ch2_thermostat_name}_thermostat
     name: ${ch2_thermostat_name}
     sensor: ${ch2_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -234,11 +242,13 @@ climate:
     min_heating_run_time: 300s
     min_idle_time: 30s
     heat_action: 
-         - lambda: id(TH2_idle) = false ;
+         - lambda: id(TH2_off) = false ;
     cool_action:
-         - lambda: id(TH2_idle) = false ;
+         - lambda: id(TH2_off) = false ;
     idle_action:
-         - lambda: id(TH2_idle) = true ;
+         - lambda: id(TH2_off) = false ;
+    off_mode:
+         - lambda: id(TH2_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -251,6 +261,7 @@ climate:
     id: ${ch3_thermostat_name}_thermostat
     name: ${ch3_thermostat_name}
     sensor: ${ch3_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -259,11 +270,13 @@ climate:
     min_heating_run_time: 300s
     min_idle_time: 30s
     heat_action: 
-         - lambda: id(TH3_idle) = false ;
+         - lambda: id(TH3_off) = false ;
     cool_action:
-         - lambda: id(TH3_idle) = false ;
+         - lambda: id(TH3_off) = false ;
     idle_action:
-         - lambda: id(TH3_idle) = true ;
+         - lambda: id(TH3_off) = false ;
+    off_mode:
+         - lambda: id(TH3_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -276,6 +289,7 @@ climate:
     id: ${ch4_thermostat_name}_thermostat
     name: ${ch4_thermostat_name}
     sensor: ${ch4_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -284,11 +298,13 @@ climate:
     min_heating_run_time: 300s
     min_idle_time: 30s
     heat_action: 
-         - lambda: id(TH4_idle) = false ;
+         - lambda: id(TH4_off) = false ;
     cool_action:
-         - lambda: id(TH4_idle) = false ;
+         - lambda: id(TH4_off) = false ;
     idle_action:
-         - lambda: id(TH4_idle) = true ;
+         - lambda: id(TH4_off) = false ;
+    off_mode:
+         - lambda: id(TH4_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -301,6 +317,7 @@ climate:
     id: ${ch5_thermostat_name}_thermostat
     name: ${ch5_thermostat_name}
     sensor: ${ch5_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -309,11 +326,13 @@ climate:
     min_heating_run_time: 300s
     min_idle_time: 30s
     heat_action: 
-         - lambda: id(TH5_idle) = false ;
+         - lambda: id(TH5_off) = false ;
     cool_action:
-         - lambda: id(TH5_idle) = false ;
+         - lambda: id(TH5_off) = false ;
     idle_action:
-         - lambda: id(TH5_idle) = true ;
+         - lambda: id(TH5_off) = false ;
+    off_mode:
+         - lambda: id(TH5_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -326,6 +345,7 @@ climate:
     id: ${ch6_thermostat_name}_thermostat
     name: ${ch6_thermostat_name}
     sensor: ${ch6_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -334,11 +354,13 @@ climate:
     min_heating_run_time: 300s
     min_idle_time: 30s
     heat_action: 
-         - lambda: id(TH6_idle) = false ;
+         - lambda: id(TH6_off) = false ;
     cool_action:
-         - lambda: id(TH6_idle) = false ;
+         - lambda: id(TH6_off) = false ;
     idle_action:
-         - lambda: id(TH6_idle) = true ;
+         - lambda: id(TH6_off) = false ;
+    off_mode:
+         - lambda: id(TH6_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -351,6 +373,7 @@ climate:
     id: ${ch7_thermostat_name}_thermostat
     name: ${ch7_thermostat_name}
     sensor: ${ch7_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -359,11 +382,13 @@ climate:
     min_heating_run_time: 300s
     min_idle_time: 30s
     heat_action: 
-         - lambda: id(TH7_idle) = false ;
+         - lambda: id(TH7_off) = false ;
     cool_action:
-         - lambda: id(TH7_idle) = false ;
+         - lambda: id(TH7_off) = false ;
     idle_action:
-         - lambda: id(TH7_idle) = true ;
+         - lambda: id(TH7_off) = false ;
+    off_mode:
+         - lambda: id(TH7_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -376,6 +401,7 @@ climate:
     id: ${ch8_thermostat_name}_thermostat
     name: ${ch8_thermostat_name}
     sensor: ${ch8_thermostat_sensor}
+    default_mode: auto
     default_target_temperature_low: 19 °C
     default_target_temperature_high: 20 °C
     min_cooling_off_time: 300s
@@ -384,11 +410,13 @@ climate:
     min_heating_run_time: 300s
     min_idle_time: 30s
     heat_action: 
-         - lambda: id(TH8_idle) = false ;
+         - lambda: id(TH8_off) = false ;
     cool_action:
-         - lambda: id(TH8_idle) = false ;
+         - lambda: id(TH8_off) = false ;
     idle_action:
-         - lambda: id(TH8_idle) = true ;
+         - lambda: id(TH8_off) = false ;
+    off_mode:
+         - lambda: id(TH8_off) = true ;
     away_config:
       default_target_temperature_low: 19 °C
       default_target_temperature_high: 19 °C
@@ -402,7 +430,7 @@ script:
   - id: TH1_check
     then:
          - lambda: |-
-                if (id(TH1_idle) == true) {return;}
+                if (id(TH1_off) == true) {return;}
                 ESP_LOGD("main", "TH1_check triggered");
                 // check if any others actuator is running. If yes, stop action and return. 
                 if (id(CH2_cover).current_operation != COVER_OPERATION_IDLE) {
@@ -444,7 +472,7 @@ script:
   - id: TH2_check
     then:
          - lambda: |-
-                if (id(TH2_idle) == true) {return;}
+                if (id(TH2_off) == true) {return;}
                 ESP_LOGD("main", "TH2_check triggered");
                 // check if any others actuator is running. If yes, stop action and return. 
                 if (id(CH1_cover).current_operation != COVER_OPERATION_IDLE) {
@@ -481,7 +509,7 @@ script:
   - id: TH3_check
     then:
          - lambda: |-
-                if (id(TH3_idle) == true) {return;}
+                if (id(TH3_off) == true) {return;}
                 ESP_LOGD("main", "TH3_check triggered");
                 // check if any others actuator is running. If yes, stop action and return. 
                 if (id(CH4_cover).current_operation != COVER_OPERATION_IDLE) {
@@ -518,7 +546,7 @@ script:
   - id: TH4_check
     then:
          - lambda: |-
-                if (id(TH4_idle) == true) {return;}
+                if (id(TH4_off) == true) {return;}
                 ESP_LOGD("main", "TH4_check triggered");
                 // check if any others actuator is running. If yes, stop action and return. 
                 if (id(CH3_cover).current_operation != COVER_OPERATION_IDLE) {
@@ -555,7 +583,7 @@ script:
   - id: TH5_check
     then:
          - lambda: |-
-                if (id(TH5_idle) == true) {return;}
+                if (id(TH5_off) == true) {return;}
                 ESP_LOGD("main", "TH5_check triggered");
                 // check if any others actuator is running. If yes, stop action and return. 
                 if (id(CH6_cover).current_operation != COVER_OPERATION_IDLE) {
@@ -593,7 +621,7 @@ script:
   - id: TH6_check
     then:
          - lambda: |-
-                if (id(TH6_idle) == true) {return;}
+                if (id(TH6_off) == true) {return;}
                 ESP_LOGD("main", "TH6_check triggered");
                 // check if any others actuator is running. If yes, stop action and return. 
                 if (id(CH5_cover).current_operation != COVER_OPERATION_IDLE) {
@@ -630,7 +658,7 @@ script:
   - id: TH7_check
     then:
          - lambda: |-
-                if (id(TH7_idle) == true) {return;}
+                if (id(TH7_off) == true) {return;}
                 ESP_LOGD("main", "TH7_check triggered");
                 // check if any others actuator is running. If yes, stop action and return. 
                 if (id(CH8_cover).current_operation != COVER_OPERATION_IDLE) {
@@ -667,7 +695,7 @@ script:
   - id: TH8_check
     then:
          - lambda: |-
-                if (id(TH8_idle) == true) {return;}
+                if (id(TH8_off) == true) {return;}
                 ESP_LOGD("main", "TH8_check triggered");
                 // check if any others actuator is running. If yes, stop action and return. 
                 if (id(CH7_cover).current_operation != COVER_OPERATION_IDLE) {
@@ -1161,35 +1189,35 @@ number:
     id: rollback    
     
 globals:
-  - id: TH1_idle
+  - id: TH1_off
     type: bool
     restore_value: no
     initial_value: 'false'
-  - id: TH2_idle
+  - id: TH2_off
     type: bool
     restore_value: no
     initial_value: 'false'
-  - id: TH3_idle
+  - id: TH3_off
     type: bool
     restore_value: no
     initial_value: 'false'
-  - id: TH4_idle
+  - id: TH4_off
     type: bool
     restore_value: no
     initial_value: 'false'
-  - id: TH5_idle
+  - id: TH5_off
     type: bool
     restore_value: no
     initial_value: 'false'
-  - id: TH6_idle
+  - id: TH6_off
     type: bool
     restore_value: no
     initial_value: 'false'
-  - id: TH7_idle
+  - id: TH7_off
     type: bool
     restore_value: no
     initial_value: 'false'
-  - id: TH8_idle
+  - id: TH8_off
     type: bool
     restore_value: no
     initial_value: 'false'
@@ -1807,3 +1835,6 @@ web_server:
       # - logger.log:
             # format: "Test PID : CH8 moved to position %.1f"
             # args: [ 'state' ] 
+
+
+
