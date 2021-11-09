@@ -12,7 +12,7 @@ The ready to go board costs less than 14$
 * The software runs under esphome to be easy to customize and linked with https://www.home-assistant.io 
 * Can be extended up to 16 channels (I recommend to get 2 boards for better performances, but the shifts registers can be extended up to 4)
 * Use BEMF (back electromotive force) from motors to get endstops
-* Can be directly linked to external temperature sensors (wifi or BLE)
+* Can be directly linked to external temperature sensors (wifi,BLE, or via available [free pins](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/extension.md))
 
 
 ## Fabrication : 
