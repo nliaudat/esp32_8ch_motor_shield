@@ -1,18 +1,27 @@
-# # change log 
-# # v89 : 
-# # add check for CLIMATE_MODE_OFF 
-# # add default_mode: auto to thermostat
-# # v85 :
-# # Rollback function tested (bug)
-# # add esp32: routine
-# # flash_write_interval: 60min
-# # Substitution for names
-# # replace check_interval loop in climate.thermostat by interval (or time)
-# # Number for parameters like BEMF triggers
-# # One BEMF trigger param per channel
-# # add idle global variable for thermostat
-# # Re test pid climate with that parameters  for low temperature heating :  kp: 30 ki: 0.005 kd: -24000
-# # Test current_base_cover : done but do not work  as expected : endstop triggered as FLT_MAX parameter is reach but FLT_MAX is position. I do not understand.
+# change log 
+# V93 :
+# substitution for temperature function (round(((diff_temp+1)/2)/0.1)*0.1;)
+# V92 :
+# minimum movement of valve 0.01 replaced number) (if (abs(current_position - target_position) > id(min_movement).state/100) {)
+# V91 :
+# add timezone substitution
+# V90:
+# logger sensor + text_sensor + homeassistant.sensor : ERROR
+# disable schedule valve_maintenance as it's triggered on reboot once a week
+# v89 : 
+# add check for CLIMATE_MODE_OFF 
+# add default_mode: auto to thermostat
+# v85 :
+# Rollback function tested (bug)
+# add esp32: routine
+# flash_write_interval: 60min
+# Substitution for names
+# replace check_interval loop in climate.thermostat by interval (or time)
+# Number for parameters like BEMF triggers
+# One BEMF trigger param per channel
+# add idle global variable for thermostat
+# Re test pid climate with that parameters  for low temperature heating :  kp: 30 ki: 0.005 kd: -24000
+# Test current_base_cover : done but do not work  as expected : endstop triggered as FLT_MAX parameter is reach but FLT_MAX is position. I do not understand.
 
 
 
@@ -25,21 +34,48 @@ substitutions:
   friendly_name: "Floor heating"
   #must only consist of lowercase characters, the underscorecharacter and numbers. The character '#' cannot be used.
   ch1_thermostat_name: wc 
-  ch1_thermostat_sensor: living_room_temperature_sensor
+  ch1_thermostat_sensor: living_room_temperature_sensor  #name of the sensor
+                 #################
+                # Formula explanation : 
+                #################
+                # // get info from climate
+                # float current_temp = id(${ch1_thermostat_name}_thermostat).current_temperature;
+                # float target_temp_low = id(${ch1_thermostat_name}_thermostat).target_temperature_low;
+                # float target_temp_high = id(${ch1_thermostat_name}_thermostat).target_temperature_high ;
+                # float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
+                #               
+                # //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
+                # //simplified =>  f(x) = (x+1)/2
+                # //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
+                # //float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                # float target_position = round(((((id(${ch1_thermostat_name}_thermostat).target_temperature_high + id(${ch1_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch1_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;
+                
+  ch1_thermostat_position_formula: "round(((((id(${ch1_thermostat_name}_thermostat).target_temperature_high + id(${ch1_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch1_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
   ch2_thermostat_name: storage 
   ch2_thermostat_sensor: living_room_temperature_sensor
+  ch2_thermostat_position_formula: "round(((((id(${ch2_thermostat_name}_thermostat).target_temperature_high + id(${ch2_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch2_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
   ch3_thermostat_name: living
   ch3_thermostat_sensor: living_room_temperature_sensor
+  ch3_thermostat_position_formula: "round(((((id(${ch3_thermostat_name}_thermostat).target_temperature_high + id(${ch3_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch3_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
   ch4_thermostat_name: dining 
   ch4_thermostat_sensor: living_room_temperature_sensor
+  ch4_thermostat_position_formula: "round(((((id(${ch4_thermostat_name}_thermostat).target_temperature_high + id(${ch4_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch4_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
   ch5_thermostat_name: kitchen 
   ch5_thermostat_sensor: living_room_temperature_sensor
+  ch5_thermostat_position_formula: "round(((((id(${ch5_thermostat_name}_thermostat).target_temperature_high + id(${ch5_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch5_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
   ch6_thermostat_name: office
   ch6_thermostat_sensor: office_temperature_sensor
+  ch6_thermostat_position_formula: "round(((((id(${ch6_thermostat_name}_thermostat).target_temperature_high + id(${ch6_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch6_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
   ch7_thermostat_name: bedroom 
   ch7_thermostat_sensor: bedroom_temperature_sensor
+  ch7_thermostat_position_formula: "round(((((id(${ch7_thermostat_name}_thermostat).target_temperature_high + id(${ch7_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch7_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
   ch8_thermostat_name: bathroom 
   ch8_thermostat_sensor: bathroom_temperature_sensor
+  ch8_thermostat_position_formula: "round(((((id(${ch8_thermostat_name}_thermostat).target_temperature_high + id(${ch8_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch8_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
+  
+  TZ: "Europe/Zurich" #timezone
+  
+  # NOT recommended to change
   #all chars exept $
   ch1_cover_name: CH1
   ch2_cover_name: CH2
@@ -49,6 +85,7 @@ substitutions:
   ch6_cover_name: CH6
   ch7_cover_name: CH7
   ch8_cover_name: CH8 
+  
   
 
 esphome:
@@ -73,7 +110,7 @@ esphome:
         
   project:
     name: "nliaudat.floor-heating-controller"
-    version: "1.89.dev"
+    version: "1.91.dev"
 
 esp32:
   board: nodemcu-32s
@@ -113,13 +150,14 @@ logger:
   baud_rate: 0 #to disable logging via UART
   logs:
     adc: INFO
-    sensor: INFO
+    sensor: ERROR
     binary_sensor: INFO
     cover: INFO
     switch: INFO
     climate: INFO
-    sensor.bureau_temperature: INFO
     endstop : DEBUG
+    text_sensor : ERROR
+    homeassistant.sensor: ERROR
 
 ### debug mode :
 # logger:
@@ -136,7 +174,7 @@ ota:
 # (Optional) For displaying time:
 time:
 - platform: sntp
-  timezone : Europe/Zurich
+  timezone : ${TZ}
   #timezone: UTC+1
   servers:  [0.pool.ntp.org, 1.pool.ntp.org , 2.pool.ntp.org]
   on_time:
@@ -146,13 +184,13 @@ time:
     days_of_week: MON #monday at 5
     then:
       - switch.toggle: floor_heating_ctrl_reboot
-  - seconds: 0
-    minutes: 0
-    hours: 7
-    days_of_week: MON # monday at 7
-    then:
-      - script.execute: valve_maintenance
-      - delay: 500s
+  # - seconds: 0
+    # minutes: 0
+    # hours: 7
+    # days_of_week: MON # monday at 7
+    # then:
+      # - script.execute: valve_maintenance
+      # - delay: 500s
   # - seconds: 0 #every 15 min
     # minutes: /15
     # then:
@@ -367,8 +405,8 @@ climate:
     name: ${ch7_thermostat_name}
     sensor: ${ch7_thermostat_sensor}
     default_mode: auto
-    default_target_temperature_low: 19 °C
-    default_target_temperature_high: 20 °C
+    default_target_temperature_low: 16 °C
+    default_target_temperature_high: 18 °C
     min_cooling_off_time: 300s
     min_cooling_run_time: 300s
     min_heating_off_time: 300s
@@ -381,8 +419,8 @@ climate:
     idle_action:
          - lambda: 'return;' 
     away_config:
-      default_target_temperature_low: 19 °C
-      default_target_temperature_high: 19 °C
+      default_target_temperature_low: 16 °C
+      default_target_temperature_high: 18 °C
     visual:
       min_temperature: 10 °C
       max_temperature: 30 °C
@@ -427,31 +465,28 @@ script:
                        return;
                 } 
                 // get info from climate
-                float current_temp = id(${ch1_thermostat_name}_thermostat).current_temperature;
-                float target_temp_low = id(${ch1_thermostat_name}_thermostat).target_temperature_low;
-                float target_temp_high = id(${ch1_thermostat_name}_thermostat).target_temperature_high ;
-                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
+                //float current_temp = id(${ch1_thermostat_name}_thermostat).current_temperature;
+                //float target_temp_low = id(${ch1_thermostat_name}_thermostat).target_temperature_low;
+                //float target_temp_high = id(${ch1_thermostat_name}_thermostat).target_temperature_high ;
+                //float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
                 
                 // get info from cover
-                float current_position = id(CH1_cover).position;
+                //float current_position = id(CH1_cover).position;
                 
                 //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
                 //simplified =>  f(x) = (x+1)/2
                 //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
-                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                //float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                //float target_position = round(((((id(${ch1_thermostat_name}_thermostat).target_temperature_high + id(${ch1_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch1_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;
+                float target_position = ${ch1_thermostat_position_formula}
                 
                 //normalize
                 if (target_position >1) { target_position = 1;} 
                 if (target_position <0) { target_position = 0;} 
                 
-                /*
-                ESP_LOGD("main", "CH1 debug target_position : %f", target_position);
-                ESP_LOGD("main", "CH1 debug current_position : %f", current_position);
-                ESP_LOGD("main", "CH1 debug diff_temp : %f", diff_temp);
-                */
-                
+
                 //call movement if target_position change consequently
-                if (abs(current_position - target_position) > 0.01) {
+                if (abs(id(CH1_cover).position - target_position) > id(min_movement).state/100) {
                     auto call = id(CH1_cover).make_call();
                     call.set_position(target_position);
                     call.perform();
@@ -468,19 +503,8 @@ script:
                        ESP_LOGD("main", "CH1 running cause CH2 cancel operation");
                        return;
                 } 
-                // get info from climate
-                float current_temp = id(${ch2_thermostat_name}_thermostat).current_temperature;
-                float target_temp_low = id(${ch2_thermostat_name}_thermostat).target_temperature_low;
-                float target_temp_high = id(${ch2_thermostat_name}_thermostat).target_temperature_high ;
-                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
                 
-                // get info from cover
-                float current_position = id(CH2_cover).position;
-                
-                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
-                //simplified =>  f(x) = (x+1)/2
-                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
-                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                float target_position = ${ch2_thermostat_position_formula}
                 
                 //normalize
                 if (target_position >1) { target_position = 1;} 
@@ -488,7 +512,7 @@ script:
                 
                 
                 //call movement if target_position change consequently
-                if (abs(current_position - target_position) > 0.01) {
+                if (abs(id(CH2_cover).position - target_position) > id(min_movement).state/100) {
                     auto call = id(CH2_cover).make_call();
                     call.set_position(target_position);
                     call.perform();
@@ -505,19 +529,8 @@ script:
                        ESP_LOGD("main", "CH4 running cause CH3 cancel operation");
                        return;
                 } 
-                // get info from climate
-                float current_temp = id(${ch3_thermostat_name}_thermostat).current_temperature;
-                float target_temp_low = id(${ch3_thermostat_name}_thermostat).target_temperature_low;
-                float target_temp_high = id(${ch3_thermostat_name}_thermostat).target_temperature_high ;
-                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
                 
-                // get info from cover
-                float current_position = id(CH3_cover).position;
-                
-                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
-                //simplified =>  f(x) = (x+1)/2
-                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
-                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                float target_position = ${ch3_thermostat_position_formula}
                 
                 //normalize
                 if (target_position >1) { target_position = 1;} 
@@ -525,7 +538,7 @@ script:
                 
                 
                 //call movement if target_position change consequently
-                if (abs(current_position - target_position) > 0.01) {
+                if (abs(id(CH3_cover).position - target_position) > id(min_movement).state/100) {
                     auto call = id(CH3_cover).make_call();
                     call.set_position(target_position);
                     call.perform();
@@ -542,19 +555,8 @@ script:
                        ESP_LOGD("main", "CH3 running cause CH4 cancel operation");
                        return;
                 } 
-                // get info from climate
-                float current_temp = id(${ch4_thermostat_name}_thermostat).current_temperature;
-                float target_temp_low = id(${ch4_thermostat_name}_thermostat).target_temperature_low;
-                float target_temp_high = id(${ch4_thermostat_name}_thermostat).target_temperature_high ;
-                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
                 
-                // get info from cover
-                float current_position = id(CH4_cover).position;
-                
-                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
-                //simplified =>  f(x) = (x+1)/2
-                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
-                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                float target_position = ${ch4_thermostat_position_formula}
                 
                 //normalize
                 if (target_position >1) { target_position = 1;} 
@@ -562,7 +564,7 @@ script:
                 
                 
                 //call movement if target_position change consequently
-                if (abs(current_position - target_position) > 0.01) {
+                if (abs(id(CH4_cover).position - target_position) > id(min_movement).state/100) {
                     auto call = id(CH4_cover).make_call();
                     call.set_position(target_position);
                     call.perform();
@@ -579,19 +581,8 @@ script:
                        ESP_LOGD("main", "CH6 running cause CH5 cancel operation");
                        return;
                 } 
-                // get info from climate
-                float current_temp = id(${ch5_thermostat_name}_thermostat).current_temperature;
-                float target_temp_low = id(${ch5_thermostat_name}_thermostat).target_temperature_low;
-                float target_temp_high = id(${ch5_thermostat_name}_thermostat).target_temperature_high ;
-                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
                 
-                // get info from cover
-                float current_position = id(CH5_cover).position;
-                
-                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
-                //simplified =>  f(x) = (x+1)/2
-                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
-                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                float target_position = ${ch5_thermostat_position_formula}
                 
                 //normalize
                 if (target_position >1) { target_position = 1;} 
@@ -599,7 +590,7 @@ script:
                 
                 
                 //call movement if target_position change consequently
-                if (abs(current_position - target_position) > 0.01) {
+                if (abs(id(CH5_cover).position - target_position) > id(min_movement).state/100) {
                     auto call = id(CH5_cover).make_call();
                     call.set_position(target_position);
                     call.perform();
@@ -617,19 +608,8 @@ script:
                        ESP_LOGD("main", "CH5 running cause CH6 cancel operation");
                        return;
                 } 
-                // get info from climate
-                float current_temp = id(${ch6_thermostat_name}_thermostat).current_temperature;
-                float target_temp_low = id(${ch6_thermostat_name}_thermostat).target_temperature_low;
-                float target_temp_high = id(${ch6_thermostat_name}_thermostat).target_temperature_high ;
-                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
                 
-                // get info from cover
-                float current_position = id(CH6_cover).position;
-                
-                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
-                //simplified =>  f(x) = (x+1)/2
-                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
-                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                float target_position = ${ch6_thermostat_position_formula}
                 
                 //normalize
                 if (target_position >1) { target_position = 1;} 
@@ -637,7 +617,7 @@ script:
                 
                 
                 //call movement if target_position change consequently
-                if (abs(current_position - target_position) > 0.01) {
+                if (abs(id(CH6_cover).position - target_position) > id(min_movement).state/100) {
                     auto call = id(CH6_cover).make_call();
                     call.set_position(target_position);
                     call.perform();
@@ -654,19 +634,8 @@ script:
                        ESP_LOGD("main", "CH8 running cause CH7 cancel operation");
                        return;
                 } 
-                // get info from climate
-                float current_temp = id(${ch7_thermostat_name}_thermostat).current_temperature;
-                float target_temp_low = id(${ch7_thermostat_name}_thermostat).target_temperature_low;
-                float target_temp_high = id(${ch7_thermostat_name}_thermostat).target_temperature_high ;
-                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
                 
-                // get info from cover
-                float current_position = id(CH7_cover).position;
-                
-                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
-                //simplified =>  f(x) = (x+1)/2
-                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
-                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                float target_position = ${ch7_thermostat_position_formula}
                 
                 //normalize
                 if (target_position >1) { target_position = 1;} 
@@ -674,7 +643,7 @@ script:
                 
                 
                 //call movement if target_position change consequently
-                if (abs(current_position - target_position) > 0.01) {
+                if (abs(id(CH7_cover).position - target_position) > id(min_movement).state/100) {
                     auto call = id(CH7_cover).make_call();
                     call.set_position(target_position);
                     call.perform();
@@ -691,19 +660,8 @@ script:
                        ESP_LOGD("main", "CH7 running cause CH8 cancel operation");
                        return;
                 } 
-                // get info from climate
-                float current_temp = id(${ch8_thermostat_name}_thermostat).current_temperature;
-                float target_temp_low = id(${ch8_thermostat_name}_thermostat).target_temperature_low;
-                float target_temp_high = id(${ch8_thermostat_name}_thermostat).target_temperature_high ;
-                float diff_temp = (target_temp_high + target_temp_low)/2 - current_temp;
                 
-                // get info from cover
-                float current_position = id(CH8_cover).position;
-                
-                //arduino map function :  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min; in_min=-1;in_max=1;out_min=0;out_max=1
-                //simplified =>  f(x) = (x+1)/2
-                //rounded at 0.1 =>  f(x) = round(((x+1)/2)/0.1)*0.1
-                float target_position = round(((diff_temp+1)/2)/0.1)*0.1;
+                float target_position = ${ch8_thermostat_position_formula}
                 
                 //normalize
                 if (target_position >1) { target_position = 1;} 
@@ -711,7 +669,7 @@ script:
                 
                 
                 //call movement if target_position change consequently
-                if (abs(current_position - target_position) > 0.01) {
+                if (abs(id(CH8_cover).position - target_position) > id(min_movement).state/100) {
                     auto call = id(CH8_cover).make_call();
                     call.set_position(target_position);
                     call.perform();
@@ -1176,6 +1134,16 @@ number:
     restore_value: true
     initial_value: 1
     id: rollback    
+    
+  - platform: template
+    name: "min movement change %"
+    optimistic: true
+    min_value: 1
+    max_value: 25
+    step: 1
+    restore_value: true
+    initial_value: 5
+    id: min_movement 
     
 # globals:
   # - id: thermostat_1_off
