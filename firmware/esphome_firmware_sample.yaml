@@ -1,8 +1,11 @@
 # change log 
+# V94 :
+# substitution for default_target_temperature_low + high
+# disable web_server as not needed anymore for debug
 # V93 :
 # substitution for temperature function (round(((diff_temp+1)/2)/0.1)*0.1;)
 # V92 :
-# minimum movement of valve 0.01 replaced number) (if (abs(current_position - target_position) > id(min_movement).state/100) {)
+# minimum movement of valve 0.01 replaced with number.min_movement_change (if (abs(current_position - target_position) > id(min_movement).state/100) {)
 # V91 :
 # add timezone substitution
 # V90:
@@ -51,27 +54,50 @@ substitutions:
                 # float target_position = round(((((id(${ch1_thermostat_name}_thermostat).target_temperature_high + id(${ch1_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch1_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;
                 
   ch1_thermostat_position_formula: "round(((((id(${ch1_thermostat_name}_thermostat).target_temperature_high + id(${ch1_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch1_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
+  ch1_default_target_temperature_low: 19 °C
+  ch1_default_target_temperature_high: 20 °C
+  
   ch2_thermostat_name: storage 
   ch2_thermostat_sensor: living_room_temperature_sensor
   ch2_thermostat_position_formula: "round(((((id(${ch2_thermostat_name}_thermostat).target_temperature_high + id(${ch2_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch2_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
+  ch2_default_target_temperature_low: 19 °C
+  ch2_default_target_temperature_high: 20 °C
+  
   ch3_thermostat_name: living
   ch3_thermostat_sensor: living_room_temperature_sensor
   ch3_thermostat_position_formula: "round(((((id(${ch3_thermostat_name}_thermostat).target_temperature_high + id(${ch3_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch3_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
+  ch3_default_target_temperature_low: 21 °C
+  ch3_default_target_temperature_high: 23 °C
+  
   ch4_thermostat_name: dining 
   ch4_thermostat_sensor: living_room_temperature_sensor
   ch4_thermostat_position_formula: "round(((((id(${ch4_thermostat_name}_thermostat).target_temperature_high + id(${ch4_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch4_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
+  ch4_default_target_temperature_low: 21 °C
+  ch4_default_target_temperature_high: 23 °C  
+
   ch5_thermostat_name: kitchen 
   ch5_thermostat_sensor: living_room_temperature_sensor
   ch5_thermostat_position_formula: "round(((((id(${ch5_thermostat_name}_thermostat).target_temperature_high + id(${ch5_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch5_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
+  ch5_default_target_temperature_low: 21 °C
+  ch5_default_target_temperature_high: 23 °C
+
   ch6_thermostat_name: office
   ch6_thermostat_sensor: office_temperature_sensor
   ch6_thermostat_position_formula: "round(((((id(${ch6_thermostat_name}_thermostat).target_temperature_high + id(${ch6_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch6_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
+  ch6_default_target_temperature_low: 20 °C
+  ch6_default_target_temperature_high: 21 °C
+
   ch7_thermostat_name: bedroom 
   ch7_thermostat_sensor: bedroom_temperature_sensor
   ch7_thermostat_position_formula: "round(((((id(${ch7_thermostat_name}_thermostat).target_temperature_high + id(${ch7_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch7_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
+  ch7_default_target_temperature_low: 16 °C
+  ch7_default_target_temperature_high: 18 °C
+  
   ch8_thermostat_name: bathroom 
   ch8_thermostat_sensor: bathroom_temperature_sensor
   ch8_thermostat_position_formula: "round(((((id(${ch8_thermostat_name}_thermostat).target_temperature_high + id(${ch8_thermostat_name}_thermostat).target_temperature_low)/2 - id(${ch8_thermostat_name}_thermostat).current_temperature)+1)/2)/0.1)*0.1;"
+  ch8_default_target_temperature_low: 22 °C
+  ch8_default_target_temperature_high: 24 °C
   
   TZ: "Europe/Zurich" #timezone
   
@@ -110,7 +136,7 @@ esphome:
         
   project:
     name: "nliaudat.floor-heating-controller"
-    version: "1.91.dev"
+    version: "1.94.dev"
 
 esp32:
   board: nodemcu-32s
@@ -227,29 +253,40 @@ interval:
       - script.execute: TH4_check
       - script.execute: TH8_check
 
+#### re-test PID with different parameters from https://www.mdpi.com/1996-1073/13/8/2068
+# climate:
+  # - platform: pid
+    # id: office_pid_thermostat
+    # name: "Office PID climate"
+    # sensor: Office_temperature
+    # default_target_temperature: 21°C
+    # heat_output: output_office_cover
+    # control_parameters:
+      # kp: 18
+      # ki: 2300
+      # kd: 0.5
 
+# output:
+  # - platform: template
+    # id: output_office_cover
+    # type: float
+    # write_action:
+      # - cover.control:
+            # id: CH6_cover
+            # position: !lambda return state;
+      # - logger.log:
+            # format: "CH6 moved to position %.1f"
+            # args: [ 'state' ]          
+#### END re-test PID with different paramaters
             
 climate:  
-#### re-test PID with different paramaters
-  # - platform: pid
-    # id: bathroom_pid_thermostat
-    # name: "BathroomPID climate"
-    # sensor: Bathroom_temperature
-    # default_target_temperature: 23°C
-    # heat_output: output_bathroom_cover
-    # control_parameters:
-      # kp: 30
-      # ki: 0.005
-      # kd: -24000
-#### END re-test PID with different paramaters
-
   - platform: thermostat
     id: ${ch1_thermostat_name}_thermostat
     name: ${ch1_thermostat_name}
     sensor: ${ch1_thermostat_sensor}
     default_mode: auto
-    default_target_temperature_low: 19 °C
-    default_target_temperature_high: 20 °C
+    default_target_temperature_low: ${ch1_default_target_temperature_low}
+    default_target_temperature_high: ${ch1_default_target_temperature_high}
     min_cooling_off_time: 300s
     min_cooling_run_time: 300s
     min_heating_off_time: 300s
@@ -263,8 +300,8 @@ climate:
     idle_action:
          - lambda: 'return;' 
     away_config:
-      default_target_temperature_low: 19 °C
-      default_target_temperature_high: 19 °C
+      default_target_temperature_low: ${ch1_default_target_temperature_low}
+      default_target_temperature_high: ${ch1_default_target_temperature_high}
     visual:
       min_temperature: 10 °C
       max_temperature: 30 °C
@@ -275,8 +312,8 @@ climate:
     name: ${ch2_thermostat_name}
     sensor: ${ch2_thermostat_sensor}
     default_mode: auto
-    default_target_temperature_low: 19 °C
-    default_target_temperature_high: 20 °C
+    default_target_temperature_low: ${ch2_default_target_temperature_low}
+    default_target_temperature_high: ${ch2_default_target_temperature_high}
     min_cooling_off_time: 300s
     min_cooling_run_time: 300s
     min_heating_off_time: 300s
@@ -289,8 +326,8 @@ climate:
     idle_action:
          - lambda: 'return;' 
     away_config:
-      default_target_temperature_low: 19 °C
-      default_target_temperature_high: 19 °C
+      default_target_temperature_low: ${ch2_default_target_temperature_low}
+      default_target_temperature_high: ${ch2_default_target_temperature_high}
     visual:
       min_temperature: 10 °C
       max_temperature: 30 °C
@@ -301,8 +338,8 @@ climate:
     name: ${ch3_thermostat_name}
     sensor: ${ch3_thermostat_sensor}
     default_mode: auto
-    default_target_temperature_low: 19 °C
-    default_target_temperature_high: 20 °C
+    default_target_temperature_low: ${ch3_default_target_temperature_low}
+    default_target_temperature_high: ${ch3_default_target_temperature_high}
     min_cooling_off_time: 300s
     min_cooling_run_time: 300s
     min_heating_off_time: 300s
@@ -315,8 +352,8 @@ climate:
     idle_action:
          - lambda: 'return;' 
     away_config:
-      default_target_temperature_low: 19 °C
-      default_target_temperature_high: 19 °C
+      default_target_temperature_low: ${ch3_default_target_temperature_low}
+      default_target_temperature_high: ${ch3_default_target_temperature_high}
     visual:
       min_temperature: 10 °C
       max_temperature: 30 °C
@@ -327,8 +364,8 @@ climate:
     name: ${ch4_thermostat_name}
     sensor: ${ch4_thermostat_sensor}
     default_mode: auto
-    default_target_temperature_low: 19 °C
-    default_target_temperature_high: 20 °C
+    default_target_temperature_low: ${ch4_default_target_temperature_low}
+    default_target_temperature_high: ${ch4_default_target_temperature_high}
     min_cooling_off_time: 300s
     min_cooling_run_time: 300s
     min_heating_off_time: 300s
@@ -341,8 +378,8 @@ climate:
     idle_action:
          - lambda: 'return;' 
     away_config:
-      default_target_temperature_low: 19 °C
-      default_target_temperature_high: 19 °C
+      default_target_temperature_low: ${ch4_default_target_temperature_low}
+      default_target_temperature_high: ${ch4_default_target_temperature_high}
     visual:
       min_temperature: 10 °C
       max_temperature: 30 °C
@@ -353,8 +390,8 @@ climate:
     name: ${ch5_thermostat_name}
     sensor: ${ch5_thermostat_sensor}
     default_mode: auto
-    default_target_temperature_low: 19 °C
-    default_target_temperature_high: 20 °C
+    default_target_temperature_low: ${ch5_default_target_temperature_low}
+    default_target_temperature_high: ${ch5_default_target_temperature_high}
     min_cooling_off_time: 300s
     min_cooling_run_time: 300s
     min_heating_off_time: 300s
@@ -367,8 +404,8 @@ climate:
     idle_action:
          - lambda: 'return;' 
     away_config:
-      default_target_temperature_low: 19 °C
-      default_target_temperature_high: 19 °C
+      default_target_temperature_low: ${ch5_default_target_temperature_low}
+      default_target_temperature_high: ${ch5_default_target_temperature_high}
     visual:
       min_temperature: 10 °C
       max_temperature: 30 °C
@@ -379,8 +416,8 @@ climate:
     name: ${ch6_thermostat_name}
     sensor: ${ch6_thermostat_sensor}
     default_mode: auto
-    default_target_temperature_low: 19 °C
-    default_target_temperature_high: 20 °C
+    default_target_temperature_low: ${ch6_default_target_temperature_low}
+    default_target_temperature_high: ${ch6_default_target_temperature_high}
     min_cooling_off_time: 300s
     min_cooling_run_time: 300s
     min_heating_off_time: 300s
@@ -393,8 +430,8 @@ climate:
     idle_action:
          - lambda: 'return;' 
     away_config:
-      default_target_temperature_low: 19 °C
-      default_target_temperature_high: 19 °C
+      default_target_temperature_low: ${ch6_default_target_temperature_low}
+      default_target_temperature_high: ${ch6_default_target_temperature_high}
     visual:
       min_temperature: 10 °C
       max_temperature: 30 °C
@@ -405,8 +442,8 @@ climate:
     name: ${ch7_thermostat_name}
     sensor: ${ch7_thermostat_sensor}
     default_mode: auto
-    default_target_temperature_low: 16 °C
-    default_target_temperature_high: 18 °C
+    default_target_temperature_low: ${ch7_default_target_temperature_low}
+    default_target_temperature_high: ${ch7_default_target_temperature_high}
     min_cooling_off_time: 300s
     min_cooling_run_time: 300s
     min_heating_off_time: 300s
@@ -419,8 +456,8 @@ climate:
     idle_action:
          - lambda: 'return;' 
     away_config:
-      default_target_temperature_low: 16 °C
-      default_target_temperature_high: 18 °C
+      default_target_temperature_low: ${ch7_default_target_temperature_low}
+      default_target_temperature_high: ${ch7_default_target_temperature_high}
     visual:
       min_temperature: 10 °C
       max_temperature: 30 °C
@@ -431,8 +468,8 @@ climate:
     name: ${ch8_thermostat_name}
     sensor: ${ch8_thermostat_sensor}
     default_mode: auto
-    default_target_temperature_low: 19 °C
-    default_target_temperature_high: 20 °C
+    default_target_temperature_low: ${ch8_default_target_temperature_low}
+    default_target_temperature_high: ${ch8_default_target_temperature_high}
     min_cooling_off_time: 300s
     min_cooling_run_time: 300s
     min_heating_off_time: 300s
@@ -445,8 +482,8 @@ climate:
     idle_action:
          - lambda: 'return;' 
     away_config:
-      default_target_temperature_low: 19 °C
-      default_target_temperature_high: 19 °C
+      default_target_temperature_low: ${ch8_default_target_temperature_low}
+      default_target_temperature_high: ${ch8_default_target_temperature_high}
     visual:
       min_temperature: 10 °C
       max_temperature: 30 °C
@@ -1740,6 +1777,6 @@ text_sensor:
     icon: mdi:clock-start  
     
     
-web_server:
-  port: 80    
+# web_server:
+  # port: 80    
 
