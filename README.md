@@ -27,6 +27,9 @@ The ready to go board costs less than 14$
 * Compatible with HKL-5M03 or HKL-PM03
 * Compatible with 1000 or 900 mil ESP32 board width
 
+## Firmware : 
+Firmware moved to it's own repo : https://github.com/nliaudat/floor-heating-controller
+
 ## Licence: 
 * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC-BY-NC-SA)
 * No commercial use
