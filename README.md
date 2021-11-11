@@ -3,7 +3,10 @@
 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/board.jpg "board")
 
+![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/floor_heating.jpg "floor_heating")
+
 The ready to go board costs less than 14$
+
 
 ## Functionalities : 
 * Can control 8 DC motors or 4 steppers motor
