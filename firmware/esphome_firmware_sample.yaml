@@ -1,4 +1,6 @@
 # change log 
+# V95 :
+# default_mode: heat_cool (https://github.com/esphome/issues/issues/2680#issuecomment-966006171)
 # V94 :
 # substitution for default_target_temperature_low + high
 # disable web_server as not needed anymore for debug
@@ -284,7 +286,7 @@ climate:
     id: ${ch1_thermostat_name}_thermostat
     name: ${ch1_thermostat_name}
     sensor: ${ch1_thermostat_sensor}
-    default_mode: auto
+    default_mode: heat_cool
     default_target_temperature_low: ${ch1_default_target_temperature_low}
     default_target_temperature_high: ${ch1_default_target_temperature_high}
     min_cooling_off_time: 300s
@@ -311,7 +313,7 @@ climate:
     id: ${ch2_thermostat_name}_thermostat
     name: ${ch2_thermostat_name}
     sensor: ${ch2_thermostat_sensor}
-    default_mode: auto
+    default_mode: heat_cool
     default_target_temperature_low: ${ch2_default_target_temperature_low}
     default_target_temperature_high: ${ch2_default_target_temperature_high}
     min_cooling_off_time: 300s
@@ -337,7 +339,7 @@ climate:
     id: ${ch3_thermostat_name}_thermostat
     name: ${ch3_thermostat_name}
     sensor: ${ch3_thermostat_sensor}
-    default_mode: auto
+    default_mode: heat_cool
     default_target_temperature_low: ${ch3_default_target_temperature_low}
     default_target_temperature_high: ${ch3_default_target_temperature_high}
     min_cooling_off_time: 300s
@@ -363,7 +365,7 @@ climate:
     id: ${ch4_thermostat_name}_thermostat
     name: ${ch4_thermostat_name}
     sensor: ${ch4_thermostat_sensor}
-    default_mode: auto
+    default_mode: heat_cool
     default_target_temperature_low: ${ch4_default_target_temperature_low}
     default_target_temperature_high: ${ch4_default_target_temperature_high}
     min_cooling_off_time: 300s
@@ -389,7 +391,7 @@ climate:
     id: ${ch5_thermostat_name}_thermostat
     name: ${ch5_thermostat_name}
     sensor: ${ch5_thermostat_sensor}
-    default_mode: auto
+    default_mode: heat_cool
     default_target_temperature_low: ${ch5_default_target_temperature_low}
     default_target_temperature_high: ${ch5_default_target_temperature_high}
     min_cooling_off_time: 300s
@@ -415,7 +417,7 @@ climate:
     id: ${ch6_thermostat_name}_thermostat
     name: ${ch6_thermostat_name}
     sensor: ${ch6_thermostat_sensor}
-    default_mode: auto
+    default_mode: heat_cool
     default_target_temperature_low: ${ch6_default_target_temperature_low}
     default_target_temperature_high: ${ch6_default_target_temperature_high}
     min_cooling_off_time: 300s
@@ -441,7 +443,7 @@ climate:
     id: ${ch7_thermostat_name}_thermostat
     name: ${ch7_thermostat_name}
     sensor: ${ch7_thermostat_sensor}
-    default_mode: auto
+    default_mode: heat_cool
     default_target_temperature_low: ${ch7_default_target_temperature_low}
     default_target_temperature_high: ${ch7_default_target_temperature_high}
     min_cooling_off_time: 300s
@@ -467,7 +469,7 @@ climate:
     id: ${ch8_thermostat_name}_thermostat
     name: ${ch8_thermostat_name}
     sensor: ${ch8_thermostat_sensor}
-    default_mode: auto
+    default_mode: heat_cool
     default_target_temperature_low: ${ch8_default_target_temperature_low}
     default_target_temperature_high: ${ch8_default_target_temperature_high}
     min_cooling_off_time: 300s
