@@ -35,7 +35,7 @@ The ready to go board costs less than 14$
 ## New version 1.4 : 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/v1-4.png "1.4")
 * Input power can be 5V to run 5V motor
-* Jumper and 3.3V input exposed copper that can be cutted out
+* 5V Jumper + 3.3V exposed copper cutout
 
 ## Firmware : 
 Firmware moved to it's own repo : https://github.com/nliaudat/floor-heating-controller
