@@ -7,7 +7,11 @@
 
 The ready to go board costs less than 14$
 
+## 2 Goals : 
 
+* Make a floor heating controller
+* ESP motor shield
+    
 ## Functionalities : 
 * Can control 8 DC motors or 4 steppers motor
 * Can drive 8 Homematic valve actuators [HmIP-VDMOT] (~15$ each)
