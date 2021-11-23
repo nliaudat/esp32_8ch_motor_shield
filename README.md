@@ -5,7 +5,7 @@
 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/floor_heating.jpg "floor_heating")
 
-The ready to go board costs less than 25$
+The ready to go board costs less than 30$
 
 ## 2 Goals : 
 
@@ -45,7 +45,7 @@ The ready to go board costs less than 25$
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/v53.PNG "53")
 * Complete rebuild
 * All part can be assembled at JLPCB
-* Costs rise to 21$ / board (shipping included)
+* Costs rise to 25$ / board (ESP not included, shipping included)
 * Fix issue [#5] (https://github.com/nliaudat/esp32_8ch_motor_shield/issues/5)
 * Fix HLK-PM03 footprint
 * Change L9110s chips (the old one was not available anymore)
