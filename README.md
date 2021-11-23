@@ -41,6 +41,17 @@ The ready to go board costs less than 25$
 * Input power can be 5V to 12V
 * 5V Jumper + 3.3V exposed copper cutout
 
+## New version v53 rev 1.19 : 
+![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/v53.PNG "53")
+* Complete rebuild
+* All part can be assembled at JLPCB
+* Costs rise to 21$ / board (shipping included)
+* Fix issue [#5] (https://github.com/nliaudat/esp32_8ch_motor_shield/issues/5)
+* Fix HLK-PM03 footprint
+* Change L9110s chips (the old one was not available anymore)
+* change version number to real job
+
+
 ## Firmware : 
 Firmware moved to it's own repo : https://github.com/nliaudat/floor-heating-controller
 
