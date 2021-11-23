@@ -5,7 +5,7 @@
 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/floor_heating.jpg "floor_heating")
 
-The ready to go board costs less than 14$
+The ready to go board costs less than 25$
 
 ## 2 Goals : 
 
