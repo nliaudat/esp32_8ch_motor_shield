@@ -52,6 +52,11 @@ The ready to go board costs less than 30$
 * change version number to real job
 
 
+## New version v54 rev 1.34 : 
+* Change 230V input socket with screw
+* Fix regression in HLK-PM03 footprint
+* Change resistors to 1.07 ohm
+
 ## Firmware : 
 Firmware moved to it's own repo : https://github.com/nliaudat/floor-heating-controller
 
