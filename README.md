@@ -60,6 +60,9 @@ The ready to go board costs less than 30$
 ## Firmware : 
 Firmware moved to it's own repo : https://github.com/nliaudat/floor-heating-controller
 
+## Diy proportionnal valves 
+https://github.com/nliaudat/floor-heating-proportional-valve
+
 ## Licence: 
 * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC-BY-NC-SA)
 * No commercial use
