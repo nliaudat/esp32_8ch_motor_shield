@@ -57,6 +57,9 @@ The ready to go board costs less than 30$
 * Fix regression in HLK-PM03 footprint
 * Change resistors to 1.07 ohm
 
+## New DEV version with DC input power: 
+![alt text](https://user-images.githubusercontent.com/6782613/189536557-082be6a7-045b-4e5f-b878-b08ebfe7910c.PNG)
+
 ## Firmware : 
 * Floor heating : https://github.com/nliaudat/floor-heating-controller
 * Motor control : https://github.com/nliaudat/esphome-8-ch-motor-controller
