@@ -58,8 +58,8 @@ The ready to go board costs less than 30$
 * Change resistors to 1.07 ohm
 
 ## Firmware : 
-Floor heating : https://github.com/nliaudat/floor-heating-controller
-Motor control : https://github.com/nliaudat/esphome-8-ch-motor-controller
+* Floor heating : https://github.com/nliaudat/floor-heating-controller
+* Motor control : https://github.com/nliaudat/esphome-8-ch-motor-controller
 
 ## Diy proportionnal valves 
 https://github.com/nliaudat/floor-heating-proportional-valve
