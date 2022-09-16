@@ -57,7 +57,7 @@ The ready to go board costs less than 30$
 * Fix regression in HLK-PM03 footprint
 * Change resistors to 1.07 ohm
 
-## New DEV version with DC input power: 
+## New version with DC input power (4.9-18 V 5A - usb and DC 2.5/6.3 plug): 
 ![alt text](https://user-images.githubusercontent.com/6782613/189536557-082be6a7-045b-4e5f-b878-b08ebfe7910c.PNG)
 
 ## Firmware : 
