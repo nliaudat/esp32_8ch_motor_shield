@@ -65,7 +65,7 @@ The ready to go board costs less than 30$
 * Motor control : https://github.com/nliaudat/esphome-8-ch-motor-controller
 
 ## Diy proportionnal valves | smart proportional actuator (TRV) with Esp-C3 mcu
-https://github.com/nliaudat/floor-heating-proportional-valve/tree/beta
+https://github.com/nliaudat/floor-heating-proportional-valve
 
 ## Licence: 
 * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC-BY-NC-SA)
