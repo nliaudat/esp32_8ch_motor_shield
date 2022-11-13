@@ -60,6 +60,9 @@ The ready to go board costs less than 30$
 ## New version with DC input power (4.9-18 V 5A - usb and DC 2.5/6.3 plug): 
 ![alt text](https://user-images.githubusercontent.com/6782613/189536557-082be6a7-045b-4e5f-b878-b08ebfe7910c.PNG)
 
+## New version v54 rev 1.39 : 
+* fix CH6 input shorted to CH7/8 BEMF #27
+
 ## Firmware : 
 * Floor heating : https://github.com/nliaudat/floor-heating-controller
 * Motor control : https://github.com/nliaudat/esphome-8-ch-motor-controller
