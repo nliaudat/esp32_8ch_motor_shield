@@ -61,7 +61,7 @@ The ready to go board costs less than 30$
 ![alt text](https://user-images.githubusercontent.com/6782613/189536557-082be6a7-045b-4e5f-b878-b08ebfe7910c.PNG)
 
 ## New version v54 rev 1.39 : 
-* fix CH6 input shorted to CH7/8 BEMF #27
+* fix CH6 input shorted to CH7/8 BEMF [#27](https://github.com/nliaudat/esp32_8ch_motor_shield/issues/27)
 
 ## Firmware : 
 * Floor heating : https://github.com/nliaudat/floor-heating-controller
