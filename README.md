@@ -63,6 +63,11 @@ The ready to go board costs less than 30$
 ## New version v54 rev 1.39 : 
 * fix CH6 input shorted to CH7/8 BEMF [#27](https://github.com/nliaudat/esp32_8ch_motor_shield/issues/27)
 
+## New version v55 rev 1.45 : 
+* Add operational amplifier to ADC inputs
+![alt text](https://user-images.githubusercontent.com/6782613/205343343-52f915ef-324d-4bf6-8092-bd3f71cac2ad.png)
+* Easyeda project getting [public](https://easyeda.com/editor#id=240c2bd91cde438f93348d56e1ae4e72|420e6f6085d643fc9c5df7bfbe9595bf|f15c181c211e4aebaf86420464abe718|b3e9b48180db4901b45d0292a792846e|60a1b0936f664eb8b9e5f7402068a21b|7744c3e75c54448eb9fed788f130dd96|78ed6c97623e4c1f929c753245e2f96b)
+
 ## Firmware : 
 * Floor heating : https://github.com/nliaudat/floor-heating-controller
 * Motor control : https://github.com/nliaudat/esphome-8-ch-motor-controller
