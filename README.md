@@ -10,7 +10,7 @@ The ready to go board costs less than 30$
 ## 2 Goals : 
 
 * Make a floor heating controller
-* ESP motor shield
+* ESP motor shield (done in v58 rev 1.49 )
     
 ## Functionalities : 
 * Can control 8 DC motors or 4 steppers motor
@@ -73,10 +73,6 @@ The ready to go board costs less than 30$
 * Custom resistors for BEMF (exposed layer to cut out)
 <img src="https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/bemf_custom_resistor.PNG" width="250" height="150">
 
-## New version v57 rev 1.48 : 
-* Replace the 1.07R with 2 ohms
-* Custom resistors for BEMF (exposed layer to cut out)
-<img src="https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/bemf_custom_resistor.PNG" width="250" height="150">
 
 ## New version v58 rev 1.49 : 
 * Replace the RJ11 with screw terminals ( the RJ11 is was too specific for "HmIP-VDMOT")
