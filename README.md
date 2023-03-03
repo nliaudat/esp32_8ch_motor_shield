@@ -27,13 +27,13 @@ The ready to go board costs less than 30$
 ## Fabrication : 
 
 * PCB can be ordered with chips assembled at JLPCB for 5.8$/unit.
-* The 3.3v power can be HKL-5M03 or HKL-PM03 (under 2.75$)
+* The 3.3v power (or 5v) can be HKL-5MX or HKL-PMX (under 2.75$)
 * ESP32-WROOM-32D costs approx 3.8$
 * Box is 3D printed
 
 ## New version 1.3 : 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/v1-3.png "1.3")
-* Compatible with HKL-5M03 or HKL-PM03
+* Compatible with HKL-5M03 or HKL-PM03, or with 5V version (HKL-5M05 or HKL-PM05)
 * Compatible with 1000 or 900 mil ESP32 board width
 
 ## New version 1.4 : 
