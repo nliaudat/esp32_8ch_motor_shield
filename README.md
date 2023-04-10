@@ -75,7 +75,7 @@ The ready to go board costs less than 30$
 
 
 ## New version v58 rev 1.49 : 
-* Replace the RJ11 with screw terminals ( the RJ11 was too specific for "HmIP-VDMOT")
+* Replace the RJ11 with screw terminals ( the RJ11 was too specific for "HmIP-VDMOT") (look at [VdMot wiring](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/VDMOT_wiring.md))
 * Make the board compatible with all kind of motors (2.5 to 6V)
 * The easyeda sources are not available anymore (more than 50 developpers has anounced and nobody make a public commit since 3 years)
 <img src="https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/screw_terminals.PNG">
