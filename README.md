@@ -14,7 +14,7 @@ The ready to go board costs less than 30$
     
 ## Functionalities : 
 * Can control 8 DC motors or 4 steppers motor
-* Can drive 8 Homematic valve actuators [HmIP-VDMOT] (~15$ each)
+* Can drive 8 Homematic valve actuators [HmIP-VDMOT] (~12$ each)
 * The card use a ESP32-WROOM-32D as logics and wifi connection. (You can get a 32U if you want an external antenna)
 * The software runs under esphome to be easy to customize and linked with https://www.home-assistant.io 
 * Can be extended up to 16 channels (I recommend to get 2 boards for better performances, but the shifts registers can be extended up to 4)
