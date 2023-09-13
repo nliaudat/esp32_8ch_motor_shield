@@ -26,7 +26,7 @@ The ready to go board costs less than 30$
 
 ## Fabrication : 
 
-* PCB can be ordered with chips assembled at JLPCB for 5.8$/unit. (!!! You have to isolate the AC part with tape !!!)
+* PCB can be ordered with chips assembled at JLPCB for 5.8$/unit. (:warning: You have to isolate the AC part with tape)
 * The 3.3v power (or 5v) can be HKL-5MX or HKL-PMX (under 2.75$) 
 * ESP32-WROOM-32D costs approx 3.8$
 * Box is 3D printed
