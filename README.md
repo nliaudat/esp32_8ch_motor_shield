@@ -17,7 +17,7 @@ The ready to go board costs less than 30$
 * Can drive 8 Homematic valve actuators [HmIP-VDMOT] (~15$ each)
 * The card use a ESP32-WROOM-32D as logics and wifi connection. (You can get a 32U if you want an external antenna)
 * The software runs under esphome to be easy to customize and linked with https://www.home-assistant.io 
-* Can be extended up to 16 channels (I recommend to get 2 boards for better performances, but the shifts registers can be extended up to 4)
+* Can be extended up to 16 channels (I recommend to get 2 boards for better performances, but the shifts registers can be extended up to 4 [shiftregOut](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/shiftregOut.md))
 * Use BEMF (back electromotive force) from motors to get endstops
 * Can be directly linked to external temperature sensors (wifi,BLE, or via available [free pins](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/extension.md))
 * Wide range of input [power](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/power.md) 2.5 to 6V
