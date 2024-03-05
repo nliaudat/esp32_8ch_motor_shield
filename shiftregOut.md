@@ -8,4 +8,3 @@ linked to the other pcb (without esp32)
 
 QH' output must be linked to SER input
 
-_I recommend to use 2 boards separated boards as the esphome code must be adapted a lot to works with 10 valves instead of 8_
