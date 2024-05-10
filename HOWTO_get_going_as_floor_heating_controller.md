@@ -12,10 +12,6 @@ The ready to go board can be produced for less than 30$.
 
 <img src="./imgs/screw_terminals.PNG">
 
-The board is designed to act and substitute a
-<img src="./imgs/homatic_ip.png" width=110px> Floor Heating Controller:
-  [`HmIP-FALMOT-C12`](https://homematic-ip.com/de/produkt/fussbodenheizungscontroller-12-fach-motorisch). This controller is about 210$.
-
 ## Enclosures / Controller Cases
 
 Have a look at the [`Boxing`](./box) directory. Yo uwill find 3D
@@ -36,18 +32,23 @@ use of a commercial service.
 
 You may choose from the list of following supported valves to contol your floor heating cirquits:
 
-- The upcoming
-  [`DIY proportional valves`](https://github.com/nliaudat/floor-heating-proportional-valve):
-  A smart proportional actuator (TRV) with ESP-C3 mcu.
+- [`DIY proportional valves`](https://github.com/nliaudat/floor-heating-proportional-valve):
+  This is a standalone valve which do not need a controller. You can run it without the ESP-C3 board, but the distance sensor will not work.
   <img src="./imgs/Proportional_Valve.gif" height=380px>
   - Pricing: aprox 8.8$ each
+
+- All DC valve from range 3V3 to 12V should work.
+  You only need to change the power supply according to your valve
+  Link the >5v jumper and cut the 3V3 cutout as in https://github.com/nliaudat/esp32_8ch_motor_shield/raw/main/imgs/v1-4.png
+
+  As example, the "Equiva Model N" is a 3v3 valve that works
 
 - <img src="./imgs/homatic_ip.png" width=110px> Floor Heating Actuator:
   [`HmIP-VDMOT`](https://de.elv.com/homematic-ip-stellantrieb-motorisch-fuer-fussbodenheizung-hmip-vdmot-153309).
   <img src="./imgs/HmIP-VDMOT.jpg" heigt=240px>
   - Pricing: approx 15$ each
   - Please consult [VDMOT-Wirering](./VDMOT_wiring.md) document, that explains
-  how to cut and connect the RJ11 equipted cables.
+    how to cut and connect the RJ11 equipted cables.
 
 ## Order via JLPCB
 
@@ -76,7 +77,7 @@ JLPCB account. Please consult the official JLPCB order guide:
 
 The Controller itself will need an 3.3 Volt AC Power input.
 
-To power the onboard ESP8266 assemble the board from any of the
+To power the onboard ESP assemble the board from any of the
 following step-down power supply modules:
 
 - Hi-Link [HKL-5M03](./imgs/HLK-5M03.jpg): Input 100-240VAC/50-60Hz; Output 3.3VDC/5W
