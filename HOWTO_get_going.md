@@ -43,8 +43,8 @@ You may choose from the list of following supported valves to contol your floor 
   - Pricing: aprox 8.8$ each
 
 - <img src="./imgs/homatic_ip.png" width=110px> Floor Heating Actuator:
-  [`HmIP-FALMOT-C12`](https://homematic-ip.com/de/produkt/fussbodenheizungscontroller-12-fach-motorisch).
-  <img src="./imgs/HmIP-FALMOT-C12.png" width=720px>
+  [`HmIP-VDMOT`](https://de.elv.com/homematic-ip-stellantrieb-motorisch-fuer-fussbodenheizung-hmip-vdmot-153309).
+  <img src="./imgs/HmIP-VDMOT.jpg" heigt=240px>
   - Pricing: approx 15$ each
   - Please consult [VDMOT-Wirering](./VDMOT_wiring.md) document, that explains
   how to cut and connect the RJ11 equipted cables.
