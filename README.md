@@ -87,6 +87,11 @@ The ready to go board costs less than 30$
 ## The futur is : Diy proportionnal valves | smart proportional actuator (TRV) with Esp-C3 mcu
 https://github.com/nliaudat/floor-heating-proportional-valve
 
+## Produce your PCB Controller and Enclosure
+
+We tried to ease the steps to get you going to produce the Enclosure and order/assemble your Controller-Board. Please have a look at 
+the [`HOWTO get going`](./HOWTO_get_going_as_floor_heating_controller.md) documentation.
+
 ## Licence: 
 * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC-BY-NC-SA)
 * No commercial use
