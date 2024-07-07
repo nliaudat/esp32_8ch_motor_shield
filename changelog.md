@@ -47,4 +47,58 @@
 * The easyeda sources are not available anymore (more than 50 developpers has anounced and nobody make a public commit since 3 years)
 <img src="https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/screw_terminals.PNG">
 
+## New version v59 rev 1.35 : 
+
+**Better BEMF :** 
+
+- Complete new concept of sensing with no more troubles with resistors to GND
+![image](https://github.com/nliaudat/esp32_8ch_motor_shield/assets/6782613/1f9d4dae-72f7-40fd-9f72-c171dd7b797c)
+
+
+**Remove of AC input :** 
+
+- That was dangerous 
+- The cost of HKL-5M was 3.8$ instead of 0.5$ for the new XL1509 module
+- 
+![image](https://github.com/nliaudat/esp32_8ch_motor_shield/assets/6782613/23913669-8f33-4bfc-9dd1-bfa660681a80)
+- With XL1509 module, You can adjust power of motors between 3.3V to 37V (recommended max 12V as not tested)
+- Everybody has an old AC/DC 1A charger
+- JLCPCB was charging a lot of shipping with the wheight of HKL module
+- New DC power input : DC Power Receptacle 2mm 6.4mm + Screw terminal
+- 
+![image](https://github.com/nliaudat/esp32_8ch_motor_shield/assets/6782613/d1569e20-54ec-4951-beca-4f328dd3e3a5)
+
+
+**Motor DC  :** 
+
+- input can be 3.3V to 12V 
+- a new AMS1117-3.3 powers the ESP32 board
+
+**Better PCB :** 
+
+- Separate 3.3V power of ESP32 board from motors
+- Capacitor added to regulate peaks in power
+- Via shielding
+- Power isolation on bottom side
+- Smaller design (126x70mm instead of 126x80). The M4 holes are compatible. 
+- Lower the price of all components (jlcpcb price soldered)
+- use R0402 footprint if possible 
+
+**ESP32-C3  :** 
+
+-  ESP32-C3 supermini footprint added 
+-  ESP32-C3 costs 2.4$ instead of 3.8$ for nodemcu devkit
+
+**OneWire :** 
+
+- Add 3 onewire XH2.54-3P connectors
+- Can get input temperature and output temperature of the heating circuit. 
+
+**Studies :** 
+
+- The XL9535 shift register cost the same as 2x SN74HC595, but the esphome code is very new and move to I2C is not compatible with esp-c3 supermini
+- The Mini L298N module instead of L9110 soldered is approx the same price (0.7per channel out of 0.52 + resistors)
+
+**V59 :** 
+![image](https://github.com/nliaudat/esp32_8ch_motor_shield/assets/6782613/039c426b-4bf6-4e37-b14f-26c4b7f79df9)
 
