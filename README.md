@@ -1,7 +1,9 @@
 # An ESP32 8 channels motor controller (shield) | Floor heating controller for proportional actuator
 (Can replace Homematic IP Floor Heating Actuator [HmIP-FALMOT-C12] ~210$ + [CCU3] ~150$)
 
-![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/v58_rev_1.49.jpg "board")
+
+![image](https://github.com/nliaudat/esp32_8ch_motor_shield/assets/6782613/e1302a20-0325-4cf6-a332-54af5e6bdfb3)
+
 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/floor_heating.jpg "floor_heating")
 
