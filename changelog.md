@@ -98,6 +98,7 @@
 
 - The XL9535 shift register cost the same as 2x SN74HC595, but the esphome code is very new and move to I2C is not compatible with esp-c3 supermini
 - The Mini L298N module instead of L9110 soldered is approx the same price (0.7per channel out of 0.52 + resistors)
+- Add more channels : if 12, this needs of another opam
 
 **V59 :** 
 ![image](https://github.com/nliaudat/esp32_8ch_motor_shield/assets/6782613/039c426b-4bf6-4e37-b14f-26c4b7f79df9)
