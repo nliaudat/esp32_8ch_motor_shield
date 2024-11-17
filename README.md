@@ -52,4 +52,3 @@ the [`HOWTO get going`](./HOWTO_get_going_as_floor_heating_controller.md) docume
 ## Licence: 
 * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC-BY-NC-SA)
 * No commercial use
-* Actually I did not share the PCB source 
