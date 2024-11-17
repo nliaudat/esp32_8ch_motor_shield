@@ -23,13 +23,14 @@ The ready to go board costs less than 30$
 * Can be extended up to 16 channels (I recommend to get 2 boards for better performances, but the shifts registers can be extended up to 4 [shiftregOut](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/shiftregOut.md))
 * Use BEMF (back electromotive force) from motors to get endstops
 * Can be directly linked to external temperature sensors (wifi,BLE, or via available [free pins](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/extension.md))
-* Wide range of input [power](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/power.md) 3.3 to 12V
+* 2 onewire connectors (to have precise IN/OUT temperature control over heating circuit)
+* USB-C power input
 * Easily [hackable](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/hack.md)
 
 
 ## Fabrication : 
 
-* PCB can be ordered with chips assembled at JLPCB for 8.5$/unit. (:warning: For old AC version, you have to isolate the AC part with tape)
+* PCB can be ordered with chips assembled at JLPCB for 13$$/unit. (:warning: For old AC version, you have to isolate the AC part with tape)
 * The 3.3v power (or 5v) can be HKL-5MX or HKL-PMX (under 2.75$) . The new version use DC input only with usb-c
 * ESP32-WROOM-32D devkit with 38 pin costs approx 3.8$ . The ESP32-C3 supermini approx 2.5$
 * Box is 3D printed
