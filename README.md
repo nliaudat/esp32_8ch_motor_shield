@@ -30,7 +30,7 @@ The ready to go board costs less than 30$
 ## Fabrication : 
 
 * PCB can be ordered with chips assembled at JLPCB for 8.5$/unit. (:warning: For old AC version, you have to isolate the AC part with tape)
-* The 3.3v power (or 5v) can be HKL-5MX or HKL-PMX (under 2.75$) . The new version use DC input only with a XL1509M module (5-40V input) (under 0.5$)
+* The 3.3v power (or 5v) can be HKL-5MX or HKL-PMX (under 2.75$) . The new version use DC input only with usb-c
 * ESP32-WROOM-32D devkit with 38 pin costs approx 3.8$ . The ESP32-C3 supermini approx 2.5$
 * Box is 3D printed
 
