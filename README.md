@@ -2,7 +2,8 @@
 (Can replace Homematic IP Floor Heating Actuator [HmIP-FALMOT-C12] ~210$ + [CCU3] ~150$)
 
 
-![image](https://github.com/nliaudat/esp32_8ch_motor_shield/assets/6782613/e1302a20-0325-4cf6-a332-54af5e6bdfb3)
+![image](https://github.com/user-attachments/assets/8f24832d-35ed-439d-a727-ef271780ee2c)
+
 
 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/floor_heating.jpg "floor_heating")
