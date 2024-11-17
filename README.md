@@ -18,7 +18,8 @@ The ready to go board costs less than 30$
 ## Functionalities : 
 * Can control 8 DC motors or 4 steppers motor
 * Can drive 8 Homematic valve actuators [HmIP-VDMOT] (~15$ each)
-* The card use a ESP32-WROOM-32D as logics and wifi connection. (You can get a 32U if you want an external antenna). It now supports the ESP32-C3 supermini
+* The card use a ESP32-WROOM-32D as logics and wifi connection. (You can get a 32U if you want an external antenna).
+* It now supports the ESP32-C3 supermini
 * The software runs under esphome to be easy to customize and linked with https://www.home-assistant.io 
 * Can be extended up to 16 channels (I recommend to get 2 boards for better performances, but the shifts registers can be extended up to 4 [shiftregOut](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/shiftregOut.md))
 * Use BEMF (back electromotive force) from motors to get endstops
