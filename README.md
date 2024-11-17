@@ -46,6 +46,9 @@ https://github.com/nliaudat/floor-heating-proportional-valve | need help !
 We tried to ease the steps to get you going to produce the Enclosure and order/assemble your Controller-Board. Please have a look at 
 the [`HOWTO get going`](./HOWTO_get_going_as_floor_heating_controller.md) documentation.
 
+## PCB sharing
+[https://oshwlab.com/nliaudat/floor_heatin_controller_v61](https://pro.easyeda.com/editor#id=15bc77acaa4147fca2a36e92e8cc8681)
+
 ## Licence: 
 * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC-BY-NC-SA)
 * No commercial use
