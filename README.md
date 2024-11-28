@@ -10,6 +10,11 @@
 
 The ready to go board costs less than 30$
 
+## Project rules : 
+This project have rules : open hardware and sources, but not open-bar :)
+* https://github.com/nliaudat/esp32_8ch_motor_shield/wiki/Project-rules
+
+
 ## 2 Goals : 
 
 * Make a floor heating controller
