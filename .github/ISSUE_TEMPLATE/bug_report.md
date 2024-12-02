@@ -7,7 +7,12 @@ assignees: ''
 
 ---
 
+
 <!-- Thanks for reporting a bug for this project. READ THIS FIRST:
+
+################
+READ rules (https://github.com/nliaudat/esp32_8ch_motor_shield/wiki/Project-rules) before posting !
+################
 
 - Provide as many details as possible. Simply saying "X gives bug" or "X gives error" is not enough!
 - Paste logs, configuration sample and code into the backticks (```).
@@ -21,7 +26,7 @@ DO NOT DELETE ANY TEXT from this template! Otherwise the issue may be closed wit
 <!--
 Please provide details about your environment below this line. -->
 
-**ESP (ESP32/ESP8266, Board/Sonoff):**
+**ESP (ESP32/ESP32-c3):**
 <!--
 Please provide details about which ESP you're using below.
 -->
@@ -40,11 +45,6 @@ Please add the link to the documentation at https://esphome.io/index.html of the
 **Description of problem:**
 
 
-**Problem-relevant YAML-configuration entries:**
-```yaml
-PASTE YAML FILE HERE
-
-```
 
 **Logs (if applicable):**
 <!--
