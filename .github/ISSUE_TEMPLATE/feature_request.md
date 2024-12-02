@@ -7,6 +7,12 @@ assignees: ''
 
 ---
 
+################
+
+READ rules (https://github.com/nliaudat/esp32_8ch_motor_shield/wiki/Project-rules) before posting !
+
+################
+
 <!-- READ THIS FIRST:
  - This is for feature requests only, for issues please go to the issues repository.
  - Please be as descriptive as possible, especially use-cases that can otherwise not be solved boost the problem's priority.
