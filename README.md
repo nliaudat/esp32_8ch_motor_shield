@@ -8,7 +8,7 @@
 
 ![alt text](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/imgs/floor_heating.jpg "floor_heating")
 
-The ready to go board costs less than 30$
+The ready to go board costs less than 15$ (excluding shipping)
 
 ## Project rules : 
 This project have rules : open hardware and sources, but not open-bar :)
@@ -30,14 +30,14 @@ This project have rules : open hardware and sources, but not open-bar :)
 * Use BEMF (back electromotive force) from motors to get endstops
 * Can be directly linked to external temperature sensors (wifi,BLE, or via available [free pins](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/extension.md))
 * 2 onewire connectors (to have precise IN/OUT temperature control over heating circuit)
-* USB-C power input
+* USB-C power input or 5-12V input
 * Easily [hackable](https://github.com/nliaudat/esp32_8ch_motor_shield/blob/main/hack.md)
 
 
 ## Fabrication : 
 
 * PCB can be ordered with chips assembled at JLPCB for 13$$/unit. (:warning: For old AC version, you have to isolate the AC part with tape)
-* The 3.3v power (or 5v) can be HKL-5MX or HKL-PMX (under 2.75$) . The new version use DC input only with usb-c
+* The new version use DC input only with usb-c up to 3A (or custom 5-12V input)
 * ESP32-WROOM-32D devkit with 38 pin costs approx 3.8$ . The ESP32-C3 supermini approx 2.5$
 * Box is 3D printed
 
