@@ -17,7 +17,7 @@ This project have rules : open hardware and sources, but not open-bar :)
 
 ## 2 Goals : 
 
-* Make a floor heating controller
+* Make a floor heating controller for proportionnal valves ([look at advantages of proportionnal valves](https://github.com/nliaudat/esp32_8ch_motor_shield/wiki/Advantages-of-proportionnal-valves-instead-of-on-off-valves) )
 * ESP motor shield (done in v58 rev 1.49 )
     
 ## Functionalities : 
