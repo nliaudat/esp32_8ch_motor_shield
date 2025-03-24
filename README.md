@@ -36,7 +36,7 @@ This project have rules : open hardware and sources, but not open-bar :)
 
 ## Fabrication : 
 
-* PCB can be ordered with chips assembled at JLPCB for 13$$/unit. (:warning: For old AC version, you have to isolate the AC part with tape)
+* PCB can be ordered with chips assembled at JLPCB for 13$/unit. (:warning: For old AC version, you have to isolate the AC part with tape)
 * The new version use DC input only with usb-c up to 3A (or custom 5-12V input)
 * ESP32-WROOM-32D devkit with 38 pin costs approx 3.8$ . The ESP32-C3 supermini approx 2.5$
 * Box is 3D printed
